@@ -1,0 +1,21 @@
+ 
+ {% extends "paginas/index.html" %}
+
+ {% load static %}
+
+{% block conteudo %}
+
+  <h3>{{titulo}}</h3>
+  <a href= "{% url "sobre" %}">
+      sobre nós 
+  </a>
+  <form action=" method"= "POST">
+
+    {% csrf_token %}
+    {{form.as_p}}
+  
+    <button type="submit">Salvar</button>
+  </form>
+<p> Os Impactos Ambientais causados pelo homem, são muitos vamos falar também sobre as suas diversas consequencias e mediddas de prevenção e mitigação. <p>
+</p>
+{% endblock %}

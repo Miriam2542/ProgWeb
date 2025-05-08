@@ -4,14 +4,22 @@ from django.db import models
 # Crie suas classes
 
 
-class Campus(models.Model):
+class Categoria(models.Model):
     # definir atributos
     nome = models.CharField(max_length=100)
+    descriação = models.CharField(max_length=150)
 
+    def __str__(self):
+        return self.name
+    
 
-class Curso (models.Model):
+class Comentario (models.Model):
     nome = models.CharField(max_length=150)
-    campus = models.ForeignKey(Campus, on_delete=models.PROTECT)
+    categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT)
+
+
+    def __str__(self):
+        return self.name
 
 
 class TipoSolicitacao(models.Model):
