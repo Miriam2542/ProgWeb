@@ -9,10 +9,16 @@ from. views import MidiaCreate, MidiaCreate, MidiaCreate
 
 urlpatterns = [
     
- path("", Inicio.as_view(), name = "index"),
- path("sobre/", SobreView.as_view(), name = "sobre"),
- 
- path("adicionar/noticia", ComentarioCreate.as_view()),
- path('adicionar/comentario')
+    path("", Inicio.as_view(), name = "index"),
+    path("sobre/", SobreView.as_view(), name = "sobre"),
+    
+    path("adicionar/noticia/", NoticiaCreate.as_view(), name="adicionar-noticia"),
+    path('adicionar/comentario/', ComentarioCreate.as_view(), name="adicionar-comentario"),
+    path('adicionar/midia/', MidiaCreate.as_view(), name="adicionar-midia"),
+    path('adicionar/categoria/', CategoriaCreate.as_view(), name="adicionar-categoria"),
+
+    path("editar/categoria/<int:pk>/", CategoriaUpdate.as_view(), name="editar-categoria"),
+    
+    
  
 ]
