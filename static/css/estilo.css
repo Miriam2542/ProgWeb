@@ -1,4 +1,55 @@
 body {
-    background-color: green;
-    color: blue;
+    background-color: #FFF8E1;
+    /* beige background */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #000000;
+    /* default text color: black */
+}
+
+#menu {
+    list-style: none;
+    padding: 5px;
+    margin: 0;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+#menu li {
+    display: inline;
+    margin-right: 10px;
+}
+
+#menu li a {
+    text-decoration: none;
+    color: #1B5E20;
+    /* dark green text for buttons */
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #A5D6A7;
+    /* light green background for buttons */
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#menu li a:hover {
+    background-color: #81C784;
+    /* darker green on hover */
+}
+
+#content,
+#footer {
+    padding: 10px;
+    margin: 10px;
+}
+
+#content p {
+    color: #000000;
+    /* description text in black */
+}
+
+#footer {
+    text-align: center;
+    color: #1B5E20;
 }

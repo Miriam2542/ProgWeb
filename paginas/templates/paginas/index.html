@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    {% block titulo %}
-    <title> PROGRAMAÇÃO WEB 2025 </title>
+    {% block titulo %} 
+    <title> Impactos Ambientais</title>
     {% endblock titulo %}
 
     <link rel = "stylesheet" href = "{% static 'css/estilo.css' %}">
@@ -20,13 +20,23 @@
         <li>
             <a href="{% url "index" %}">Inicio</a>
             <li>
-                <a href="{% url "sobre" %}">Sobre nós</a>
-            </li>
-        </ul>
-        {% block conteudo %}
-    <p>
-        Desenvolvido por Miriam
-    </p>
-    {% endblock %}
+        <a href="{% url "sobre" %}">Sobre nós</a>
+        <li><a href="{% url "adicionar-categoria" %}">Categoria</a></li>
+        <li><a href="{% url "adicionar-noticia" %}">Noticia</a></li>
+        <li><a href="{% url "adicionar-midia" %}">Midia</a></li>
+        <li><a href="{% url "adicionar-comentario" %}">Comentario</a></li>
+       
+    </ul>
+       {%  block conteudo  %}
+    <h3>Página inicial</h3>
+
+    <p>Bem vindos a página inicial vamos falar sobre os Impactos Ambientais</p>
+
+    {%  endblock  %}
+
+<div id="rodape">
+        Desenvolvido por Miriam Cauneto
+    </div>
+
     </body>
 </html>

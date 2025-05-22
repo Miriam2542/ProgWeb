@@ -14,14 +14,17 @@ class CategoriaCreate(CreateView):
     template_name = 'paginas/form.html'
     model = Categoria
     fields = ['nome','descricao' ]
-    success_url = reverse_lazy('inicio')
-    extra_context={'título':' Cadastro de Categoria'}
+    success_url = reverse_lazy('index')
+    extra_context={
+        'titulo':' Cadastro de Categoria', 
+        'botao': 'Cadastrar',
+    }
 
 class NoticiaCreate(CreateView):
     model = Noticia
-    fields = ['categoria', 'data_publicacao']
+    fields = ['titulo','conteudo','postado_por','categoria']
     template_name = 'paginas/form.html'
-    success_url = reverse_lazy('inicio')
+    success_url = reverse_lazy('index')
     extra_context = {
         'titulo': 'Cadastrar Noticia',
         'botao': 'Cadastrar',
@@ -31,7 +34,7 @@ class ComentarioCreate(CreateView):
     model = Comentario
     template_name = 'paginas/form.html'
     fields = ['noticia','conteudo']
-    success_url = reverse_lazy('inicio')
+    success_url = reverse_lazy('index')
     extra_context = {
         'conteudo': 'Cadastrar Comentario',
         'botao': 'Cadastrar',
@@ -41,7 +44,7 @@ class MidiaCreate(CreateView):
     model = Midia 
     template_name = 'paginas/form.html'
     fields = ['tipo', 'url', 'descricao', 'fonte']
-    success_url = reverse_lazy('inicio')
+    success_url = reverse_lazy('index')
     extra_context = {
         'titulo': 'Cadastrar Midia',
         'botao': 'Cadastrar',
@@ -51,57 +54,82 @@ class MidiaCreate(CreateView):
 
 class CategoriaUpdate(UpdateView):
     template_name = 'paginas/form.html'
-    fields = ['nome']
-    success_url = reverse_lazy('inicio')
+    model = Categoria
+    fields = ['nome', 'descricao']
+    success_url = reverse_lazy('index')
     extra_context = {
-        'título': 'Atualização',
+        'titulo': 'Atualização de categoria',
         'botao' : 'Salvar',
     }
 
 class NoticiaUpdate(UpdateView):
     template_name = 'paginas/form.html'
-    fields = ['nome']
-    success_url = reverse_lazy('inicio')
+    model = Noticia
+    fields = ['titulo','conteudo','postado_por','categoria']
+    success_url = reverse_lazy('index')
     extra_context = {
-        'título': 'Atualização',
+        'titulo': 'Atualização',
         'botao' : 'Salvar',
     }
 
 class ComentarioUpdate(UpdateView):
     template_name = 'paginas/form.html'
-    fields = ['nome']
-    success_url = reverse_lazy('inicio')
+    model = Comentario
+    fields = ['noticia','conteudo']
+    success_url = reverse_lazy('index')
     extra_context = {
-        'título': 'Atualização',
+        'titulo': 'Atualização',
         'botao' : 'Salvar',
     }
 
 class MidiaUpdate(UpdateView):
     template_name = 'paginas/form.html'
-    fields = ['nome']
-    success_url = reverse_lazy('inicio')
+    model = Midia 
+    fields = ['tipo', 'url', 'descricao', 'fonte']
+    success_url = reverse_lazy('index')
     extra_context = {
-        'título': 'Atualização',
+        'titulo': 'Atualização',
         'botao' : 'Salvar',
     }
+
+
+###################################################################
+
+
 class ComentarioDelete(DeleteView):
     model= Comentario 
-    templete_name='cadastros/form-excluir.html'
+    template_name='paginas/form.html'
     success_url = reverse_lazy('index')
+    extra_context = {
+        'titulo': 'Excluir - comentario',
+        'botao' : 'Excluir',
+    }
+
 
 class NoticiaDelete(DeleteView):
     model= Noticia
-    templete_name='cadastros/form-excluir.html'
+    template_name='paginas/form.html'
     success_url = reverse_lazy('index')
-
+    extra_context = {
+        'titulo': 'Excluir',
+        'botao' : 'Excluir',
+    }
 class CategoriaDelete(DeleteView):
     model= Categoria
-    templete_name='cadastros/form-excluir.html'
-    success_url = reverse_lazy('index')
+    template_name='paginas/form.html'
+    success_url = reverse_lazy('index') 
+    extra_context = {
+        'titulo': 'Excluir',
+        'botao' : 'Excluir',
+    }
 
 class MidiaDelete(DeleteView):
     model= Midia
-    templete_name='cadastros/form-excluir.html'
-    success_url = reverse_lazy('index')
+    template_name='paginas/form.html'
+    success_url = reverse_lazy('index') 
+    extra_context = {
+        'titulo': 'Excluir',
+        'botao' : 'Excluir',
+    }
 
 
