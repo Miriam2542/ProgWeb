@@ -1,0 +1,33 @@
+ 
+ {% extends "paginas/index.html" %}
+
+ {% load static %}
+
+{% block conteudo %}
+
+  <h3> Lista de Noticias Cadastradas </h3>
+
+  <table>
+    <tr>Nome</th>
+      <th>Postado em</th>
+      <th>Opções</th>
+    </tr>
+  
+  {% for obj in objetc_list %}
+<tr>
+  <td>{{obj.nome}}</td>
+  <td>{{obj.cadastrado_em}}</td>
+  <td>
+    <a href="#">Editar</a>
+    <a href="#">Excluir</a>
+  </td>
+</tr>
+
+  {% empyt %}
+  <td colspan="3"> Nenhum registro encontrado.</td>
+
+
+  {% endfor %}
+</table>
+
+{% endblock %}

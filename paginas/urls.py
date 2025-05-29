@@ -6,8 +6,10 @@ from .views import CategoriaCreate, CategoriaUpdate, CategoriaDelete
 from. views import ComentarioCreate, ComentarioUpdate, ComentarioDelete
 from. views import NoticiaCreate, NoticiaUpdate, NoticiaDelete
 from. views import MidiaCreate, MidiaUpdate, MidiaDelete
+from. views import NoticiaList
 
 urlpatterns = [
+    path("listar/noticia",NoticiaList.as_view(), name = "listar-noticia"),
     
     path("",Inicio.as_view(), name = "index"),
     path("sobre/", SobreView.as_view(), name = "sobre"),

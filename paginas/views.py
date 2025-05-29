@@ -1,8 +1,9 @@
-from django.views.generic import TemplateView
+
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Categoria, Noticia, Comentario, Midia
-
+from django.views.generic import TemplateView , Listview
+ 
 #importar a class Noticia
 class Inicio(TemplateView):
     template_name = "paginas/index.html"
@@ -132,4 +133,7 @@ class MidiaDelete(DeleteView):
         'botao' : 'Excluir',
     }
 
-
+####################################################################
+class NoticiaList(ListView):
+    model = Noticia
+    template_name = 'paginas/noticia.html'
