@@ -6,7 +6,7 @@ from .views import CategoriaCreate, CategoriaUpdate, CategoriaDelete
 from. views import ComentarioCreate, ComentarioUpdate, ComentarioDelete
 from. views import NoticiaCreate, NoticiaUpdate, NoticiaDelete
 from. views import MidiaCreate, MidiaUpdate, MidiaDelete
-from. views import NoticiaList
+from. views import NoticiaList, ComentarioList, MidiaList, CategoriaList
 
 urlpatterns = [
     path("listar/noticia",NoticiaList.as_view(), name = "listar-noticia"),
@@ -20,14 +20,19 @@ urlpatterns = [
     path('adicionar/categoria/', CategoriaCreate.as_view(), name="adicionar-categoria"),
 
     path("editar/categoria/<int:pk>/", CategoriaUpdate.as_view(), name="editar-categoria"),
-    path("editar/noticia/<int:pk>/", ComentarioUpdate.as_view(), name="editar-noticia"),
-    path("editar/comentario/<int:pk>/", NoticiaUpdate.as_view(), name="editar-comentario"),
+    path("editar/noticia/<int:pk>/", NoticiaUpdate.as_view(), name="editar-noticia"),
+    path("editar/comentario/<int:pk>/", ComentarioUpdate.as_view(), name="editar-comentario"),
     path("editar/midia/<int:pk>/", MidiaUpdate.as_view(), name="editar-midia"),
 
     path("excluir/categoria/<int:pk>/", CategoriaDelete.as_view(), name="excluir-categoria"),
     path("excluir/comentario/<int:pk>/", ComentarioDelete.as_view(), name="excluir-comentario"),
     path("excluir/noticia/<int:pk>/", NoticiaDelete.as_view(), name="excluir-noticia"),
     path("excluir/midia/<int:pk>/", MidiaDelete.as_view(), name="excluir-midia"),
+
+    path("excluir/categoria/<int:pk>/", CategoriaList.as_view(), name="excluir-categoria"),
+    path("excluir/comentario/<int:pk>/", ComentarioList.as_view(), name="excluir-comentario"),
+    path("excluir/noticia/<int:pk>/", NoticiaList.as_view(), name="excluir-noticia"),
+    path("excluir/midia/<int:pk>/", MidiaList.as_view(), name="excluir-midia"),
     
     
     

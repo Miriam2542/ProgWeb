@@ -38,7 +38,7 @@ class Comentario(models.Model):
 class Midia(models.Model):
     tipo = models.CharField(max_length=150)
     url = models.URLField(max_length=150)
-    descricao = models.CharField(max_length=200, verbose_name= "descrição")
+    descricao = models.CharField(max_length=200, verbose_name= "descricao")
     fonte = models.CharField(max_length=150)
 
     def __str__(self):

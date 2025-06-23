@@ -2,7 +2,7 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Categoria, Noticia, Comentario, Midia
-from django.views.generic import TemplateView , Listview
+from django.views.generic import TemplateView , ListView
  
 #importar a class Noticia
 class Inicio(TemplateView):
@@ -109,15 +109,15 @@ class ComentarioDelete(DeleteView):
 
 class NoticiaDelete(DeleteView):
     model= Noticia
-    template_name='paginas/form.html'
+    template_name ='paginas/form.html'
     success_url = reverse_lazy('index')
     extra_context = {
         'titulo': 'Excluir',
         'botao' : 'Excluir',
     }
 class CategoriaDelete(DeleteView):
-    model= Categoria
-    template_name='paginas/form.html'
+    model = Categoria
+    template_name ='paginas/form.html'
     success_url = reverse_lazy('index') 
     extra_context = {
         'titulo': 'Excluir',
@@ -126,7 +126,7 @@ class CategoriaDelete(DeleteView):
 
 class MidiaDelete(DeleteView):
     model= Midia
-    template_name='paginas/form.html'
+    template_name ='paginas/form.html'
     success_url = reverse_lazy('index') 
     extra_context = {
         'titulo': 'Excluir',
@@ -137,3 +137,17 @@ class MidiaDelete(DeleteView):
 class NoticiaList(ListView):
     model = Noticia
     template_name = 'paginas/noticia.html'
+
+class CategoriaList(ListView):
+    model = Categoria
+    template_name = 'paginas/categoria.html'
+
+class MidiaList(ListView):
+    model = Midia
+    template_name = 'paginas/midia.html'
+
+class ComentarioList(ListView):
+    model = Comentario
+    template_name = 'paginas/comentario.html'
+
+
