@@ -4,23 +4,24 @@
 
 {% block conteudo %}
 
-<h3> Lista de Noticias Cadastradas </h3>
+<h3> Lista de Midias </h3>
 
 <table>
     <tr>
-        <th>Nome</th>
-        <th>Postado em</th>
-        <th>Opções</th>
+        <th>tipo</th>
+        <th> url </th>
+        <th>descricao</th>
+        <th>fonte</tr>
     </tr>
 
-    {% for noticia in objetc_list %}
+    {% for midia in objetc_list %}
     <tr>
-        <td>{{noticia.nome}}</td>
-        <td>{{noticia.cadastrado_em}}</td>
+        <td>{{midia.tipo}}</td>
+        <td>{{midia.descricao}}</td>
 
         <td>
-            <a href="{% url " editar-noticia" noticia.pk %}">Editar</a>
-            <a href="{% url " excluir-noticia" noticia.pk %}">Excluir</a>
+            <a href="{% url " editar-midia" midia.pk %}">Editar</a>
+            <a href="{% url " excluir-midia" midia.pk %}">Excluir</a>
         </td>
 
     </tr>
@@ -32,23 +33,15 @@
     </tr>
 
     {% endfor %}
-</table>
-<tr>
-    <th>tipo</th>
-    <th> url </th>
-    <th>descricao</th>
-    <th>fonte</tr>
-
-</tr>
 
 {% endblock %}
 
-{% for historico in object_list %}
+{% for Midia in object_list %}
 <tr>
-    <td>{{excluir-noticia}}</td>
-    <td>{{editar-noticia.postado_por.nome}}</td>
-    <td>{{noticia.status.nome}}</td>
-    <td>{{noticia.cadastrado_em}}</td>
+    <td>{{excluir-midia}}</td>
+    <td>{{editar-midia.tipo}}</td>
+    <td>{{midia.descricao}}</td>
+    
     <td>
         <a href="{% url " editar-noticia" noticia.pk %}">Editar</a>
         <a href="{% url " excluir-noticia" noticia.pk %}">Excluir</a>

@@ -1,16 +1,35 @@
 
 from django.urls import path
 from .views import Inicio, SobreView
-
 from .views import CategoriaCreate, CategoriaUpdate, CategoriaDelete
 from. views import ComentarioCreate, ComentarioUpdate, ComentarioDelete
 from. views import NoticiaCreate, NoticiaUpdate, NoticiaDelete
 from. views import MidiaCreate, MidiaUpdate, MidiaDelete
 from. views import NoticiaList, ComentarioList, MidiaList, CategoriaList
 
+from django.contrib.auth import views as auth_views
+
 urlpatterns = [
-    path("listar/noticia",NoticiaList.as_view(), name = "listar-noticia"),
+    #criar rota para pagina de login
+    path("login/", auth_views.LoginView.as_view(
+        template_name = 'paginas/form.html' , extra_context = {
+        'titulo': 'Autentificar',
+        'botao': 'Entrar',
+    }
+    ), name="login"),
+
+    #criar rota de logout 
+    path("sair/" , auth_views.LogoutView.as_view(), name="logout"),
+
+     path("senha/", auth_views.PasswordChangeView.as_view(
+        template_name = 'paginas/form.html' , extra_context = {
+        'titulo': 'atualizar senha',
+        'botao': 'salvar',
+    }
+     ), name="senha"),
     
+    
+          
     path("",Inicio.as_view(), name = "index"),
     path("sobre/", SobreView.as_view(), name = "sobre"),
     
@@ -33,6 +52,8 @@ urlpatterns = [
     path("excluir/comentario/<int:pk>/", ComentarioList.as_view(), name="excluir-comentario"),
     path("excluir/noticia/<int:pk>/", NoticiaList.as_view(), name="excluir-noticia"),
     path("excluir/midia/<int:pk>/", MidiaList.as_view(), name="excluir-midia"),
+
+    path("listar/noticia",NoticiaList.as_view(), name = "listar-noticia"),
     
     
     

@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from .models import Categoria, Noticia, Comentario, Midia
 from django.views.generic import TemplateView , ListView
  
+from django.contrib.auth.mixins import LoginRequiredMixin
 #importar a class Noticia
 class Inicio(TemplateView):
     template_name = "paginas/index.html"
@@ -11,7 +12,7 @@ class Inicio(TemplateView):
 class SobreView (TemplateView):
     template_name = "paginas/sobre.html"
 
-class CategoriaCreate(CreateView):
+class CategoriaCreate(LoginRequiredMixin, CreateView):
     template_name = 'paginas/form.html'
     model = Categoria
     fields = ['nome','descricao' ]
@@ -21,27 +22,27 @@ class CategoriaCreate(CreateView):
         'botao': 'Cadastrar',
     }
 
-class NoticiaCreate(CreateView):
+class NoticiaCreate(LoginRequiredMixin, CreateView):
     model = Noticia
     fields = ['titulo','conteudo','postado_por','categoria']
     template_name = 'paginas/form.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('listar-noticia')
     extra_context = {
-        'titulo': 'Cadastrar Noticia',
-        'botao': 'Cadastrar',
+        'titulo': 'Autentificar',
+        'botao': 'Entrar',
     }
 
-class ComentarioCreate(CreateView):
+class ComentarioCreate(LoginRequiredMixin, CreateView):
     model = Comentario
     template_name = 'paginas/form.html'
     fields = ['noticia','conteudo']
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('listar-comentario')
     extra_context = {
         'conteudo': 'Cadastrar Comentario',
         'botao': 'Cadastrar',
     }
 
-class MidiaCreate(CreateView):
+class MidiaCreate(LoginRequiredMixin, CreateView):
     model = Midia 
     template_name = 'paginas/form.html'
     fields = ['tipo', 'url', 'descricao', 'fonte']
@@ -53,7 +54,7 @@ class MidiaCreate(CreateView):
       
 ###############################################################
 
-class CategoriaUpdate(UpdateView):
+class CategoriaUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Categoria
     fields = ['nome', 'descricao']
@@ -63,7 +64,7 @@ class CategoriaUpdate(UpdateView):
         'botao' : 'Salvar',
     }
 
-class NoticiaUpdate(UpdateView):
+class NoticiaUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Noticia
     fields = ['titulo','conteudo','postado_por','categoria']
@@ -73,7 +74,7 @@ class NoticiaUpdate(UpdateView):
         'botao' : 'Salvar',
     }
 
-class ComentarioUpdate(UpdateView):
+class ComentarioUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Comentario
     fields = ['noticia','conteudo']
@@ -83,7 +84,7 @@ class ComentarioUpdate(UpdateView):
         'botao' : 'Salvar',
     }
 
-class MidiaUpdate(UpdateView):
+class MidiaUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Midia 
     fields = ['tipo', 'url', 'descricao', 'fonte']
@@ -97,7 +98,7 @@ class MidiaUpdate(UpdateView):
 ###################################################################
 
 
-class ComentarioDelete(DeleteView):
+class ComentarioDelete(LoginRequiredMixin, DeleteView):
     model= Comentario 
     template_name='paginas/form.html'
     success_url = reverse_lazy('index')
@@ -107,7 +108,7 @@ class ComentarioDelete(DeleteView):
     }
 
 
-class NoticiaDelete(DeleteView):
+class NoticiaDelete(LoginRequiredMixin, DeleteView):
     model= Noticia
     template_name ='paginas/form.html'
     success_url = reverse_lazy('index')
@@ -115,7 +116,7 @@ class NoticiaDelete(DeleteView):
         'titulo': 'Excluir',
         'botao' : 'Excluir',
     }
-class CategoriaDelete(DeleteView):
+class CategoriaDelete(LoginRequiredMixin, DeleteView):
     model = Categoria
     template_name ='paginas/form.html'
     success_url = reverse_lazy('index') 
@@ -124,7 +125,7 @@ class CategoriaDelete(DeleteView):
         'botao' : 'Excluir',
     }
 
-class MidiaDelete(DeleteView):
+class MidiaDelete(LoginRequiredMixin, DeleteView):
     model= Midia
     template_name ='paginas/form.html'
     success_url = reverse_lazy('index') 
@@ -134,19 +135,19 @@ class MidiaDelete(DeleteView):
     }
 
 ####################################################################
-class NoticiaList(ListView):
+class NoticiaList(LoginRequiredMixin, ListView):
     model = Noticia
     template_name = 'paginas/noticia.html'
 
-class CategoriaList(ListView):
+class CategoriaList(LoginRequiredMixin, ListView):
     model = Categoria
     template_name = 'paginas/categoria.html'
 
-class MidiaList(ListView):
+class MidiaList(LoginRequiredMixin, ListView):
     model = Midia
     template_name = 'paginas/midia.html'
 
-class ComentarioList(ListView):
+class ComentarioList(LoginRequiredMixin, ListView):
     model = Comentario
     template_name = 'paginas/comentario.html'
 

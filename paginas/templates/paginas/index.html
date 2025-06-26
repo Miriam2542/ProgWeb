@@ -21,11 +21,22 @@
             <a href="{% url "index" %}">Inicio</a>
             <li>
         <a href="{% url "sobre" %}">Sobre nós</a>
+        {% if request.user.is_authenticated %}
         <li><a href="{% url "adicionar-categoria" %}">Categoria</a></li>
         <li><a href="{% url "adicionar-noticia" %}">Noticia</a></li>
         <li><a href="{% url "adicionar-midia" %}">Midia</a></li>
         <li><a href="{% url "adicionar-comentario" %}">Comentario</a></li>
-       
+
+       <li><a href="{% url "senha" %}">Atualizar senha</a></li>
+
+        <li><a href="{% url "logout" %}">Sair</a></li>
+
+        {% else %}
+
+        <li><a href="{% url "login" %}">Entrar</a> </li>
+
+        {% endif %}
+
     </ul>
        {%  block conteudo  %}
     <h3>Página inicial</h3>
