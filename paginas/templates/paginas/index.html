@@ -45,9 +45,21 @@
 
     {%  endblock  %}
 
-<div id="rodape">
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</nav>
+<header>
+    <div class="center">
+        <img src="./img/logodotcc.png"/>
+    </div>
+    <div id="rodape">
         Desenvolvido por Miriam Cauneto
     </div>
-
+</header>
     </body>
 </html>

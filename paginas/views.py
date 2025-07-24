@@ -1,7 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic.edit import CreateView
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import Categoria, Noticia, Comentario, Midia
+from .models import Categoria, Noticia, Comentario, Midia, User
 from django.views.generic import TemplateView , ListView
  
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,6 +15,9 @@ class Inicio(TemplateView):
 
 class SobreView (TemplateView):
     template_name = "paginas/sobre.html"
+
+class UsuarioView (TemplateView):
+    template_name = "paginas/index.html"
 
 class CategoriaCreate(LoginRequiredMixin, CreateView):
     template_name = 'paginas/form.html'
@@ -150,5 +157,16 @@ class MidiaList(LoginRequiredMixin, ListView):
 class ComentarioList(LoginRequiredMixin, ListView):
     model = Comentario
     template_name = 'paginas/comentario.html'
+
+class UsuarioView(LoginRequiredMixin, UsuarioView):
+    model = User
+    template_name = 'index.html'
+
+class CriarUsuarioView(SuccessMessageMixin, CreateView):
+    model = User
+    fields = ['nome', 'email']
+    success_url = '/usuario/'
+    success_message = "Usuário criado com sucesso!"
+
 
 
