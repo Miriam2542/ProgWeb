@@ -5,59 +5,45 @@
 
 {% block conteudo %}
 
+<header>
   <h3> Lista de Noticias Cadastradas </h3>
+</header>
+
+ <a href="{% url "adicionar-noticia" %}">Adicionar Notícia</a>
+
+ <br>
 
   <table>
     <tr>
-      <th>Nome</th>
-      <th>Postado em</th>
+      <th>Título</th>
+      <th>conteudo</th>
+      <th>categoria</th>
+      <th>data_publicacao</th>
+      <th>postado_por</th>
       <th>Opções</th>
     </tr>
   
-  {% for noticia in objetc_list %}
-<tr> 
-    <td>{{noticia.nome}}</td>
-    <td>{{noticia.cadastrado_em}}</td>
+  {% for noticia in object_list %}
+  <tr> 
+      <td>{{noticia.titulo}}</td>
+      <td>{{noticia.conteudo}}</td>
+      <td>{{noticia.categoria}}</td>
+      <td>{{noticia.data_publicacao}}</td>
+      <td>{{noticia.postado_por}}</td>
 
-  <td>
-    <a href="{% url "editar-noticia" noticia.pk %}">Editar</a>
-      <a href="{% url " excluir-noticia" noticia.pk %}">Excluir</a>
-    </td>
-
- </tr>
-
-  {% empyt %}
-  <tr>
-  <td colspan="3"> Nenhum registro encontrado.</td>
+      <td>
+        <a href="{% url "editar-noticia" noticia.pk %}">Editar</a>
+        <a href="{% url "excluir-noticia" noticia.pk %}">Excluir</a>
+      </td>
 
   </tr>
 
+  {% empty %}
+  <tr>
+    <td colspan="6"> Nenhum registro encontrado.</td>
+  </tr>
   {% endfor %}
+
 </table>
-  <tr>
-    <th>Noticia</th>
-    <th>titulo</th>
-    <th>conteudo</th>
-    <th>categoria</th>
-    <th>data_publicacao</th>
-    <th>postado_por</th>
-    
-  </tr>
 
 {% endblock %}
-    
-    {% for historico in object_list %}
-    <tr>
-      <td>{{excluir-noticia}}</td>
-      <td>{{editar-noticia.postado_por.nome}}</td>
-      <td>{{noticia.status.nome}}</td>
-      <td>{{noticia.cadastrado_em}}</td>
-      <td>
-        <a href="{% url " editar-noticia" noticia.pk %}">Editar</a>
-        <a href="{% url " excluir-noticia" noticia.pk %}">Excluir</a>
-      </td>
-    </tr>
-    {% endfor %}
-    </table>
-    
-    {% endblock %}

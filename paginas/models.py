@@ -19,9 +19,9 @@ class Categoria(models.Model):
 class Noticia(models.Model):
     titulo = models.CharField(max_length=50)
     conteudo = models.TextField()  
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT)
     data_publicacao = models.DateTimeField(auto_now_add=True)
-    postado_por = models.ForeignKey(User, on_delete=models.CASCADE)
+    postado_por = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self):
         return f"{self.titulo}"
@@ -29,7 +29,7 @@ class Noticia(models.Model):
 class Comentario(models.Model):
     nome = models.CharField(max_length=100)
     conteudo = models.CharField(max_length=250)
-    data = models.DateTimeField()
+    data = models.DateTimeField(auto_now_add=True)
     noticia = models.ForeignKey(Noticia, on_delete=models.PROTECT)
 
     def __str__(self):

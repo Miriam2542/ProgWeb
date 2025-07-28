@@ -4,50 +4,46 @@
 
 {% block conteudo %}
 
-<h3> Lista de Midias </h3>
+
+<header>
+    <h3> Lista de Midias </h3>
+</header>
+
+<a href="{% url "adicionar-midia" %}">Adicionar Mídia</a>
+
+<br>
 
 <table>
     <tr>
         <th>tipo</th>
-        <th> url </th>
+        <th>url</th>
         <th>descricao</th>
-        <th>fonte</tr>
+        <th>fonte</th>
+        <th>Opções</th>
     </tr>
 
-    {% for midia in objetc_list %}
+    {% for midia in object_list %}
     <tr>
         <td>{{midia.tipo}}</td>
+        <td>{{midia.url}}</td>
         <td>{{midia.descricao}}</td>
+        <td>{{midia.fonte}}</td>
 
         <td>
-            <a href="{% url " editar-midia" midia.pk %}">Editar</a>
-            <a href="{% url " excluir-midia" midia.pk %}">Excluir</a>
+            <a href="{% url "editar-midia" midia.pk %}">Editar</a>
+            <a href="{% url "excluir-midia" midia.pk %}">Excluir</a>
         </td>
 
     </tr>
 
-    {% empyt %}
+    {% empty %}
     <tr>
-        <td colspan="3"> Nenhum registro encontrado.</td>
+        <td colspan="5"> Nenhum registro encontrado.</td>
 
     </tr>
 
     {% endfor %}
 
-{% endblock %}
-
-{% for Midia in object_list %}
-<tr>
-    <td>{{excluir-midia}}</td>
-    <td>{{editar-midia.tipo}}</td>
-    <td>{{midia.descricao}}</td>
-    
-    <td>
-        <a href="{% url " editar-noticia" noticia.pk %}">Editar</a>
-        <a href="{% url " excluir-noticia" noticia.pk %}">Excluir</a>
-    </td>
-</tr>
-{% endfor %}
 </table>
 
 {% endblock %}

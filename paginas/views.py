@@ -158,15 +158,7 @@ class ComentarioList(LoginRequiredMixin, ListView):
     model = Comentario
     template_name = 'paginas/comentario.html'
 
-class UsuarioView(LoginRequiredMixin, UsuarioView):
-    model = User
-    template_name = 'index.html'
 
-class CriarUsuarioView(SuccessMessageMixin, CreateView):
-    model = User
-    fields = ['nome', 'email']
-    success_url = '/usuario/'
-    success_message = "Usuário criado com sucesso!"
 
 
 

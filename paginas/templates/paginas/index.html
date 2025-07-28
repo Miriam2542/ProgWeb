@@ -15,51 +15,64 @@
     
 </head>
 <body>
-    <h4> Menu Superior </h4>
-    <ul>
-        <li>
-            <a href="{% url "index" %}">Inicio</a>
-            <li>
-        <a href="{% url "sobre" %}">Sobre nós</a>
-        {% if request.user.is_authenticated %}
-        <li><a href="{% url "adicionar-categoria" %}">Categoria</a></li>
-        <li><a href="{% url "adicionar-noticia" %}">Noticia</a></li>
-        <li><a href="{% url "adicionar-midia" %}">Midia</a></li>
-        <li><a href="{% url "adicionar-comentario" %}">Comentario</a></li>
 
-       <li><a href="{% url "senha" %}">Atualizar senha</a></li>
+    <nav>
+        <ul>
+            <li><a href="{% url "index" %}">Inicio</a><li>
+            <a href="{% url "sobre" %}">Sobre nós</a>
+            {% if request.user.is_authenticated %}
+            <li><a href="{% url "listar-categoria" %}">Categoria</a></li>
+            <li><a href="{% url "listar-noticia" %}">Noticia</a></li>
+            <li><a href="{% url "listar-midia" %}">Midia</a></li>
+            <li><a href="{% url "listar-comentario" %}">Comentario</a></li>
 
-        <li><a href="{% url "logout" %}">Sair</a></li>
+        <li><a href="{% url "senha" %}">Atualizar senha</a></li>
 
-        {% else %}
+            <li><a href="{% url "logout" %}">Sair</a></li>
 
-        <li><a href="{% url "login" %}">Entrar</a> </li>
+            {% else %}
 
+            <li><a href="{% url "login" %}">Entrar</a> </li>
+
+            {% endif %}
+
+        </ul>
+    </nav>
+
+
+    <main>
+
+        {%  block conteudo  %}
+        <h3>Página inicial</h3>
+        
+        <p> O Futuro do Planeta Está em Nossas Mãos!
+            Ações humanas estão transformando o mundo de maneiras irreversíveis. 
+            O aquecimento global, a poluição, o desmatamento e a perda de biodiversidade estão afetando a nossa casa comum de forma alarmante. Mas há esperança!</p>
+    
+        {%  endblock  %}
+
+
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
         {% endif %}
 
-    </ul>
-       {%  block conteudo  %}
-    <h3>Página inicial</h3>
+    </main>
 
-    <p>Bem vindos a página inicial vamos falar sobre os Impactos Ambientais</p>
 
-    {%  endblock  %}
+    <footer>
+        <div>
+            <img src="{% static "img/logodoTCC.png" %}" width="200" />
+        </div>
 
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-            <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-</nav>
-<header>
-    <div class="center">
-        <img src="./img/logodotcc.png"/>
-    </div>
-    <div id="rodape">
-        Desenvolvido por Miriam Cauneto
-    </div>
-</header>
-    </body>
+        <div >
+            Desenvolvido por Miriam Cauneto
+        </div>
+    </footer>
+
+    
+</body>
 </html>
