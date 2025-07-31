@@ -158,6 +158,40 @@ class ComentarioList(LoginRequiredMixin, ListView):
     model = Comentario
     template_name = 'paginas/comentario.html'
 
+####################################################################
+
+class CategoriaUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Categoria
+    template_name = 'paginas/categoria.html'
+
+    fields = ['nome', 'descricao']
+
+    success_url = reverse_lazy('index')
+
+    success_message = "Categoria editada com sucesso!"
+
+  
+class CategoriaView(SuccessMessageMixin, CreateView):
+    model = Categoria
+    template_name = 'paginas/categoria.html'
+
+    fields = ['nome', 'descricao']
+
+    success_url = reverse_lazy('index')
+
+    success_message = "Categoria criada com sucesso!"
+
+class CategoriaDelete(SuccessMessageMixin, DeleteView):
+    model = Categoria
+    template_name = 'paginas/categoria.html'
+
+    fields = ['nome', 'descricao']
+
+    success_url = reverse_lazy('index')
+
+    success_message = "Categoria deletada com sucesso!"
+
+
 
 
 
