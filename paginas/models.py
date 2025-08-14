@@ -14,6 +14,9 @@ class Categoria(models.Model):
     
     def __str__(self):
         return f"{self.nome}"
+class Meta: 
+        ordering = ['nome']
+    
     
    
 class Noticia(models.Model):
@@ -25,15 +28,21 @@ class Noticia(models.Model):
 
     def __str__(self):
         return f"{self.titulo}"
+    class Meta: 
+        ordering = ['titulo']
     
 class Comentario(models.Model):
-    nome = models.CharField(max_length=100)
+    nome = models.CharField(max_length=250)
     conteudo = models.CharField(max_length=250)
     data = models.DateTimeField(auto_now_add=True)
     noticia = models.ForeignKey(Noticia, on_delete=models.PROTECT)
+    autor = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self):
-        return f"{self.nome} ({self.conteudo})"
+        return f"{self.nome} {self.conteudo}"
+    
+    class Meta: 
+        ordering = ['-autor']
 
 class Midia(models.Model):
     tipo = models.CharField(max_length=150)
@@ -43,6 +52,8 @@ class Midia(models.Model):
 
     def __str__(self):
         return f"{self.tipo} - {self.descricao}"
+class Meta: 
+    ordering = ['tipo', 'descricao']
     
 
 

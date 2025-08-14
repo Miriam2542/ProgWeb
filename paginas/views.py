@@ -31,13 +31,20 @@ class CategoriaCreate(LoginRequiredMixin, CreateView):
 
 class NoticiaCreate(LoginRequiredMixin, CreateView):
     model = Noticia
-    fields = ['titulo','conteudo','postado_por','categoria']
+    fields = ['titulo','conteudo','categoria']
     template_name = 'paginas/form.html'
     success_url = reverse_lazy('listar-noticia')
     extra_context = {
-        'titulo': 'Autentificar',
+        'titulo': 'Cadastro de Notícia',
         'botao': 'Entrar',
     }
+
+    def form_valid(self, form):
+        #pegar usuario que está autentificado
+       form.instance.postado_por = self.request.user
+       url=super().form_valid(form)
+       return url
+    
 
 class ComentarioCreate(LoginRequiredMixin, CreateView):
     model = Comentario
@@ -45,9 +52,14 @@ class ComentarioCreate(LoginRequiredMixin, CreateView):
     fields = ['noticia','conteudo']
     success_url = reverse_lazy('listar-comentario')
     extra_context = {
-        'conteudo': 'Cadastrar Comentario',
+        'titulo': 'Cadastrar Comentário',
         'botao': 'Cadastrar',
     }
+    def form_valid(self, form):
+       #pegar usuario que está autentificado
+       form.instance.autor = self.request.user
+       url=super().form_valid(form)
+       return url
 
 class MidiaCreate(LoginRequiredMixin, CreateView):
     model = Midia 
@@ -55,9 +67,10 @@ class MidiaCreate(LoginRequiredMixin, CreateView):
     fields = ['tipo', 'url', 'descricao', 'fonte']
     success_url = reverse_lazy('index')
     extra_context = {
-        'titulo': 'Cadastrar Midia',
+        'titulo': 'Cadastrar Mídia',
         'botao': 'Cadastrar',
    }
+   
       
 ###############################################################
 
