@@ -1,32 +1,33 @@
  
  {% extends "paginas/index.html" %}
-
- {% load static %}
+{% load static %}
 
 {% block conteudo %}
 
-  <h3>{{titulo}}</h3>
+<div class="container mt-4">
+  <h3 class="mb-4">{{ titulo }}</h3>
 
-  
-  <form action=""  method="post">
-
+  <form action="" method="post" novalidate>
     {% csrf_token %}
 
-    {{form.as_p}}
-  
+    <!-- Formulário renderizado com form-control via widget tweaks ou manualmente -->
+    {{ form.as_p }}
 
     {% if botao == "Excluir" %}
-    <h4>
-        Deseja excluir o registro: 
-        <span style="color: red;">
-            {{ object }} 
-        </span>
-    </h4>
+      <div class="alert alert-warning mt-3">
+        <h5>Deseja excluir o registro: <span class="text-danger">{{ object }}</span>?</h5>
+      </div>
     {% endif %}
 
-    
-    <button type="submit">{{ botao }}</button>
+    <button type="submit" class="btn 
+      {% if botao == "Excluir" %}btn-danger
+      {% elif botao == "Salvar" or botao == "Adicionar" %}btn-success
+      {% else %}btn-primary{% endif %} mt-3">
+      {{ botao }}
+    </button>
 
-</form>
+    <a href="{% url 'listar-midia' %}" class="btn btn-secondary mt-3 ms-2">Cancelar</a>
+  </form>
+</div>
 
 {% endblock %}

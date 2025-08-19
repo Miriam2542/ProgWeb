@@ -32,7 +32,7 @@ class Noticia(models.Model):
         ordering = ['titulo']
     
 class Comentario(models.Model):
-    nome = models.CharField(max_length=250)
+    
     conteudo = models.CharField(max_length=250)
     data = models.DateTimeField(auto_now_add=True)
     noticia = models.ForeignKey(Noticia, on_delete=models.PROTECT)

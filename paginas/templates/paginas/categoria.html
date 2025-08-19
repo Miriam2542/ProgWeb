@@ -4,43 +4,44 @@
 
 {% block conteudo %}
 
+<div class="container mt-4">
 
-<header>
-    <h3> Lista de Categoria </h3>
-</header>
+    <header class="mb-4">
+        <h3 class="text-success">Lista de Categorias</h3>
+    </header>
 
-<a href="{% url "adicionar-categoria" %}">Adicionar Categoria</a>
+    <div class="mb-3">
+        <a href="{% url 'adicionar-categoria' %}" class="btn btn-primary">➕ Adicionar Categoria</a>
+    </div>
 
-<br>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped align-middle">
+            <thead class="table-success">
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Opções</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categoria in object_list %}
+                <tr>
+                    <td>{{ categoria.nome }}</td>
+                    <td>{{ categoria.descricao }}</td>
+                    <td>
+                        <a href="{% url 'editar-categoria' categoria.pk %}" class="btn btn-sm btn-warning">✏️ Editar</a>
+                        <a href="{% url 'excluir-categoria' categoria.pk %}" class="btn btn-sm btn-danger">🗑️ Excluir</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">Nenhum registro encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-<table>
-    <tr>
-        <th>Nome</th>
-        <th>Descrição</th>
-        <th>Opções</th>
-    </tr>
-
-    {% for categoria in object_list %}
-    <tr>
-        <td>{{categoria.nome}}</td>
-        <td>{{categoria.descricao}}</td>
-        
-
-        <td>
-            <a href="{% url "editar-categoria" categoria.pk %}">Editar</a>
-            <a href="{% url "excluir-categoria" categoria.pk %}">Excluir</a>
-        </td>
-
-    </tr>
-
-    {% empty %}
-    <tr>
-        <td colspan="2"> Nenhum registro encontrado.</td>
-
-    </tr>
-
-    {% endfor %}
-
-</table>
+</div>
 
 {% endblock %}

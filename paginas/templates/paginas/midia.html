@@ -4,46 +4,50 @@
 
 {% block conteudo %}
 
+<div class="container mt-4">
 
-<header>
-    <h3> Lista de Midias </h3>
-</header>
+    <header class="mb-4">
+        <h3 class="text-success">Lista de Mídias</h3>
+    </header>
 
-<a href="{% url "adicionar-midia" %}">Adicionar Mídia</a>
+    <div class="mb-3">
+        <a href="{% url 'adicionar-midia' %}" class="btn btn-primary">➕ Adicionar Mídia</a>
+    </div>
 
-<br>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped align-middle">
+            <thead class="table-success">
+                <tr>
+                    <th>Tipo</th>
+                    <th>URL</th>
+                    <th>Descrição</th>
+                    <th>Fonte</th>
+                    <th>Opções</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for midia in object_list %}
+                <tr>
+                    <td>{{ midia.tipo }}</td>
+                    <td>
+                        <a href="{{ midia.url }}" target="_blank">{{ midia.url }}</a>
+                    </td>
+                    <td>{{ midia.descricao }}</td>
+                    <td>{{ midia.fonte }}</td>
+                    <td>
+                        <a href="{% url 'editar-midia' midia.pk %}" class="btn btn-sm btn-warning">✏️ Editar</a>
+                        <a href="{% url 'excluir-midia' midia.pk %}" class="btn btn-sm btn-danger">🗑️ Excluir</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">Nenhum registro encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-<table>
-    <tr>
-        <th>tipo</th>
-        <th>url</th>
-        <th>descrição</th>
-        <th>fonte</th>
-        <th>Opções</th>
-    </tr>
-
-    {% for midia in object_list %}
-    <tr>
-        <td>{{midia.tipo}}</td>
-        <td>{{midia.url}}</td>
-        <td>{{midia.descricao}}</td>
-        <td>{{midia.fonte}}</td>
-
-        <td>
-            <a href="{% url "editar-midia" midia.pk %}">Editar</a>
-            <a href="{% url "excluir-midia" midia.pk %}">Excluir</a>
-        </td>
-
-    </tr>
-
-    {% empty %}
-    <tr>
-        <td colspan="5"> Nenhum registro encontrado.</td>
-
-    </tr>
-
-    {% endfor %}
-
-</table>
+</div>
 
 {% endblock %}
