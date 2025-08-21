@@ -1,15 +1,45 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic.edit import CreateView
-
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Categoria, Noticia, Comentario, Midia, User
 from django.views.generic import TemplateView , ListView
+from django.contrib.auth.models import User, Group
+from .forms import UsuarioCadastroForm
+
+
+# Crie a view no final do arquivo ou em outro local que faça sentido
+
+
+class CadastroUsuarioView(CreateView):
+    model = User
+    # Não tem o fields, pois ele é definido no forms.py
+    form_class = UsuarioCadastroForm
+    # Pode utilizar o seu form padrão
+    template_name = 'paginas/form.html'
+    success_url = reverse_lazy('login')
+    extra_context ={
+        'titulo': 'Cadastro de Usuário',
+        'botao': 'Cadastrar',
+    } 
+
+
+
+    def form_valid(self, form):
+        # Faz o comportamento padrão do form_valid
+        url = super().form_valid(form)
+        # Busca ou cria um grupo com esse nome
+        grupo, criado = Group.objects.get_or_create(name='Usuário')
+        # Acessa o objeto criado e adiciona o usuário no grupo acima
+        self.object.groups.add(grupo)
+        # Retorna a URL de sucesso
+        return url
+
  
 from django.contrib.auth.mixins import LoginRequiredMixin
 #importar a class Noticia
+
 class Inicio(TemplateView):
     template_name = "paginas/index.html"
 
@@ -49,7 +79,7 @@ class NoticiaCreate(LoginRequiredMixin, CreateView):
 class ComentarioCreate(LoginRequiredMixin, CreateView):
     model = Comentario
     template_name = 'paginas/form.html'
-    fields = ['noticia','conteudo']
+    fields = ['noticia','texto']
     success_url = reverse_lazy('listar-comentario')
     extra_context = {
         'titulo': 'Cadastrar Comentário',
@@ -97,7 +127,7 @@ class NoticiaUpdate(LoginRequiredMixin, UpdateView):
 class ComentarioUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Comentario
-    fields = ['noticia','conteudo']
+    fields = ['noticia','texto']
     success_url = reverse_lazy('index')
     extra_context = {
         'titulo': 'Atualização',

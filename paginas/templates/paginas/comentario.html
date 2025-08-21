@@ -16,7 +16,7 @@
         <thead class="table-success">
             <tr>
                 <th>Autor</th>
-                <th>Conteúdo</th>
+                <th>Texto</th>
                 <th>Data</th>
                 <th>Notícia</th>
                 <th>Opções</th>
@@ -26,7 +26,7 @@
     {% for comentario in object_list %}
     <tr>
         <td>{{ comentario.autor }}</td>  <!-- ou o campo correto -->
-        <td>{{ comentario.conteudo }}</td>
+        <td>{{ comentario.texto }}</td>
         <td>{{ comentario.data }}</td>
         <td>{{ comentario.noticia }}</td>
         <td>

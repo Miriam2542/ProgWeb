@@ -33,13 +33,13 @@ class Noticia(models.Model):
     
 class Comentario(models.Model):
     
-    conteudo = models.CharField(max_length=250)
+    texto = models.CharField(max_length=250)
     data = models.DateTimeField(auto_now_add=True)
     noticia = models.ForeignKey(Noticia, on_delete=models.PROTECT)
     autor = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self):
-        return f"{self.nome} {self.conteudo}"
+        return f"{self.autor} : {self.texto[:30]}"
     
     class Meta: 
         ordering = ['-autor']

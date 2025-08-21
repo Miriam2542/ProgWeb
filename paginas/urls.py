@@ -7,13 +7,17 @@ from. views import NoticiaCreate, NoticiaUpdate, NoticiaDelete
 from. views import MidiaCreate, MidiaUpdate, MidiaDelete
 from. views import NoticiaList, ComentarioList, MidiaList, CategoriaList
 
-
-
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
+from .views import CadastroUsuarioView
+
+ #criar rota registrar para cadastrar novos usuarios
+
 
 urlpatterns = [
+    
+    path("registrar/", CadastroUsuarioView.as_view(), name="registrar"),
     #criar rota para pagina de login
     path("login/", auth_views.LoginView.as_view(
         template_name = 'paginas/form.html' , extra_context = {

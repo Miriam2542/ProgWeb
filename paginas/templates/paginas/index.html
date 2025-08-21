@@ -29,6 +29,8 @@
                 <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'sobre' %}">Sobre nós</a>
                 </li>
+                <li class="nav-item mx-2">
+                <a class="nav-link text-white" href="{% url 'registrar' %}">Registar</a></li>
 
                 {% if request.user.is_authenticated %}
 
@@ -69,15 +71,32 @@
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="container my-4">
 
-        {% block conteudo %}
-        <h3>Página inicial</h3>
+       {% block conteudo %}
 
-        <p>
-            O Futuro do Planeta Está em Nossas Mãos!<br>
-            Ações humanas estão transformando o mundo de maneiras irreversíveis. 
-            O aquecimento global, a poluição, o desmatamento e a perda de biodiversidade estão afetando a nossa casa comum de forma alarmante.
-            <strong>Mas há esperança!</strong>
-        </p>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">🌍 Página Inicial</h3>
+                    <p class="card-text">
+                        <strong>O Futuro do Planeta Está em Nossas Mãos!</strong><br><br>
+                        Ações humanas estão transformando o mundo de maneiras irreversíveis. 
+                        O aquecimento global, a poluição, o desmatamento e a perda de biodiversidade 
+                        estão afetando a nossa casa comum de forma alarmante.
+                    </p>
+                    <p class="card-text">
+                        <strong class="text-success">Mas há esperança!</strong><br>
+                        Com ações conscientes, políticas sustentáveis e engajamento coletivo, 
+                        podemos reverter muitos dos danos e construir um futuro mais verde e justo.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
 
         <!-- Seção de Cards -->
         <div class="row mt-5">
@@ -122,17 +141,17 @@
 
         <!-- MENSAGENS DO DJANGO -->
         {% if messages %}
-            <ul class="mt-3">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+     {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} mt-3">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
 
     </main>
 
     <!-- RODAPÉ -->
-    <footer class="bg-light text-center py-3 mt-4">
+    <footer class="bg-green text-center py-3 mt-4">
         <div>
             <img src="{% static 'img/logodoTCC.png' %}" width="200" alt="Logo do TCC" />
         </div>
