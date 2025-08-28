@@ -2,12 +2,14 @@
 from django.urls import path
 from .views import Inicio, SobreView
 from .views import CategoriaCreate, CategoriaUpdate, CategoriaDelete
-from. views import ComentarioCreate, ComentarioUpdate, ComentarioDelete
-from. views import NoticiaCreate, NoticiaUpdate, NoticiaDelete
-from. views import MidiaCreate, MidiaUpdate, MidiaDelete
-from. views import NoticiaList, ComentarioList, MidiaList, CategoriaList
+from .views import ComentarioCreate, ComentarioUpdate, ComentarioDelete
+from .views import NoticiaCreate, NoticiaUpdate, NoticiaDelete
+from .views import MidiaCreate, MidiaUpdate, MidiaDelete
+from .views import NoticiaList, ComentarioList, MidiaList, CategoriaList
+from .views import CadastroUsuarioView
+from .views import MinhasNoticias
 
-from django.urls import path
+
 from django.contrib.auth import views as auth_views
 
 from .views import CadastroUsuarioView
@@ -61,7 +63,7 @@ urlpatterns = [
     path("listar/noticia/", NoticiaList.as_view(), name="listar-noticia"),
     path("listar/midia/", MidiaList.as_view(), name="listar-midia"),
 
-    
+     path("listar/meus-posts/", MinhasNoticias.as_view(), name="listar-noticia"),
     
  
 ]

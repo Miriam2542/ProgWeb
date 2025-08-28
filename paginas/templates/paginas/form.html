@@ -1,6 +1,6 @@
- 
- {% extends "paginas/index.html" %}
+{% extends "paginas/index.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block conteudo %}
 
@@ -10,8 +10,7 @@
   <form action="" method="post" novalidate>
     {% csrf_token %}
 
-    <!-- Formulário renderizado com form-control via widget tweaks ou manualmente -->
-    {{ form.as_p }}
+    {{ form|crispy }}
 
     {% if botao == "Excluir" %}
       <div class="alert alert-warning mt-3">

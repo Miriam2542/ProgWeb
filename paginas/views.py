@@ -7,6 +7,8 @@ from .models import Categoria, Noticia, Comentario, Midia, User
 from django.views.generic import TemplateView , ListView
 from django.contrib.auth.models import User, Group
 from .forms import UsuarioCadastroForm
+from django.shortcuts import get_object_or_404
+
 
 
 # Crie a view no final do arquivo ou em outro local que faça sentido
@@ -37,7 +39,7 @@ class CadastroUsuarioView(CreateView):
         return url
 
  
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 #importar a class Noticia
 
 class Inicio(TemplateView):
@@ -124,6 +126,11 @@ class NoticiaUpdate(LoginRequiredMixin, UpdateView):
         'botao' : 'Salvar',
     }
 
+    def get_object(self, queryset = None):
+        
+        obj = get_object_or_404(Noticia, pk=self.kwargs['pk'], postado_por=self.request.user) 
+        return obj
+
 class ComentarioUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Comentario
@@ -166,6 +173,11 @@ class NoticiaDelete(LoginRequiredMixin, DeleteView):
         'titulo': 'Excluir',
         'botao' : 'Excluir',
     }
+    def get_object(self, queryset = None):
+        
+        obj = get_object_or_404(Noticia, pk=self.kwargs['pk'], postado_por=self.request.user) 
+        return obj
+    
 class CategoriaDelete(LoginRequiredMixin, DeleteView):
     model = Categoria
     template_name ='paginas/form.html'
@@ -188,6 +200,13 @@ class MidiaDelete(LoginRequiredMixin, DeleteView):
 class NoticiaList(LoginRequiredMixin, ListView):
     model = Noticia
     template_name = 'paginas/noticia.html'
+
+# fazer herança para ter tudo que tem na NoticiaList
+class MinhasNoticias(NoticiaList):
+
+    def get_queryset(self):
+        qs = Noticia.objects.filter(postado_por=self.request.user)
+        return qs
 
 class CategoriaList(LoginRequiredMixin, ListView):
     model = Categoria
