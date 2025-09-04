@@ -1,0 +1,47 @@
+{% extends "paginas/index.html" %}
+{% load static %}
+
+{% block conteudo %}
+
+<div class="container mt-4">
+    <header class="mb-4">
+        <h3 class="text-success">Detalhes da Notícia</h3>
+    </header>
+
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5>{{ noticia.titulo }}</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Categoria:</strong> {{ noticia.categoria }}</p>
+            <p><strong>Publicado em:</strong> {{ noticia.data_publicacao|date:"d/m/Y H:i" }}</p>
+            <p><strong>Postado por:</strong> {{ noticia.postado_por }}</p>
+            <hr>
+            <p>{{ noticia.conteudo }}</p>
+        </div>
+        <div class="card-footer text-end">
+            <a href="{% url 'editar-noticia' noticia.pk %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+            <a href="{% url 'excluir-noticia' noticia.pk %}" class="btn btn-danger btn-sm">🗑️ Excluir</a>
+            <a href="{% url 'listar-noticia' %}" class="btn btn-secondary btn-sm">🔙 Voltar</a>
+        </div>
+    </div>
+
+    <section>
+        <h4 class="text-success mb-3">Comentários</h4>
+
+        {% if comentarios %}
+            <ul class="list-group">
+                {% for comentario in comentarios %}
+                    <li class="list-group-item">
+                        <strong>{{ comentario.autor }}</strong> comentou em {{ comentario.data|date:"d/m/Y H:i" }}:<br>
+                        {{ comentario.texto }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="alert alert-info">Nenhum comentário para esta notícia ainda.</div>
+        {% endif %}
+    </section>
+</div>
+
+{% endblock %}

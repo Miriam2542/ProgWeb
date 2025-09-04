@@ -8,14 +8,12 @@ from .views import MidiaCreate, MidiaUpdate, MidiaDelete
 from .views import NoticiaList, ComentarioList, MidiaList, CategoriaList
 from .views import CadastroUsuarioView
 from .views import MinhasNoticias
-
-
+from .views import NoticiaDetailView
 from django.contrib.auth import views as auth_views
 
 from .views import CadastroUsuarioView
 
  #criar rota registrar para cadastrar novos usuarios
-
 
 urlpatterns = [
     
@@ -40,7 +38,7 @@ urlpatterns = [
     
     
           
-    path("",Inicio.as_view(), name = "index"),
+    path("", Inicio.as_view(), name = "index"),
     path("sobre/", SobreView.as_view(), name = "sobre"),
     
     path("adicionar/noticia/", NoticiaCreate.as_view(), name="adicionar-noticia"),
@@ -63,7 +61,8 @@ urlpatterns = [
     path("listar/noticia/", NoticiaList.as_view(), name="listar-noticia"),
     path("listar/midia/", MidiaList.as_view(), name="listar-midia"),
 
-     path("listar/meus-posts/", MinhasNoticias.as_view(), name="listar-noticia"),
-    
+    path("listar/meus-posts/", MinhasNoticias.as_view(), name="listar-noticia"),
+    path('noticia/<int:pk>/', NoticiaDetailView.as_view(), name='detalhar-noticia'),
  
 ]
+

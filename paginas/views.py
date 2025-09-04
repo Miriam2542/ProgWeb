@@ -8,6 +8,7 @@ from django.views.generic import TemplateView , ListView
 from django.contrib.auth.models import User, Group
 from .forms import UsuarioCadastroForm
 from django.shortcuts import get_object_or_404
+from django.views.generic import DetailView
 
 
 
@@ -127,7 +128,6 @@ class NoticiaUpdate(LoginRequiredMixin, UpdateView):
     }
 
     def get_object(self, queryset = None):
-        
         obj = get_object_or_404(Noticia, pk=self.kwargs['pk'], postado_por=self.request.user) 
         return obj
 
@@ -140,6 +140,10 @@ class ComentarioUpdate(LoginRequiredMixin, UpdateView):
         'titulo': 'Atualização',
         'botao' : 'Salvar',
     }
+
+    def get_object(self, queryset = None):
+        obj = get_object_or_404(Comentario, pk=self.kwargs['pk'], autor=self.request.user) 
+        return obj
 
 class MidiaUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
@@ -163,6 +167,10 @@ class ComentarioDelete(LoginRequiredMixin, DeleteView):
         'titulo': 'Excluir - comentario',
         'botao' : 'Excluir',
     }
+
+    def get_object(self, queryset = None):
+        obj = get_object_or_404(Comentario, pk=self.kwargs['pk'], autor=self.request.user) 
+        return obj
 
 
 class NoticiaDelete(LoginRequiredMixin, DeleteView):
@@ -220,41 +228,19 @@ class ComentarioList(LoginRequiredMixin, ListView):
     model = Comentario
     template_name = 'paginas/comentario.html'
 
+    def get_queryset(self):
+        # Apenas comentários do usuário logado
+        return Comentario.objects.filter(autor=self.request.user)
+
 ####################################################################
 
-class CategoriaUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    model = Categoria
-    template_name = 'paginas/categoria.html'
+class NoticiaDetailView(DetailView):
+    model = Noticia
+    template_name = 'paginas/noticia_detalhe.html'
+    context_object_name = 'noticia'
 
-    fields = ['nome', 'descricao']
-
-    success_url = reverse_lazy('index')
-
-    success_message = "Categoria editada com sucesso!"
-
-  
-class CategoriaView(SuccessMessageMixin, CreateView):
-    model = Categoria
-    template_name = 'paginas/categoria.html'
-
-    fields = ['nome', 'descricao']
-
-    success_url = reverse_lazy('index')
-
-    success_message = "Categoria criada com sucesso!"
-
-class CategoriaDelete(SuccessMessageMixin, DeleteView):
-    model = Categoria
-    template_name = 'paginas/categoria.html'
-
-    fields = ['nome', 'descricao']
-
-    success_url = reverse_lazy('index')
-
-    success_message = "Categoria deletada com sucesso!"
-
-
-
-
-
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Filtra os comentários relacionados à notícia atual
+        context['comentarios'] = Comentario.objects.filter(noticia=self.object)
+        return context
