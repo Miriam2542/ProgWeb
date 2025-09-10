@@ -15,38 +15,33 @@
         <a href="{% url 'adicionar-noticia' %}" class="btn btn-primary">➕ Adicionar Notícia</a>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped align-middle">
-            <thead class="table-success">
-                <tr>
-                    <th>Título</th>
-                    <th>Conteúdo</th>
-                    <th>Categoria</th>
-                    <th>Data de Publicação</th>
-                    <th>Postado por</th>
-                    <th>Opções</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for noticia in object_list %}
-                <tr>
-                    <td>{{ noticia.titulo }}</td>
-                    <td>{{ noticia.conteudo|truncatechars:100 }}</td>
-                    <td>{{ noticia.categoria }}</td>
-                    <td>{{ noticia.data_publicacao }}</td>
-                    <td>{{ noticia.postado_por }}</td>
-                    <td>
-                        <a href="{% url 'editar-noticia' noticia.pk %}" class="btn btn-sm btn-warning">✏️ Editar</a>
-                        <a href="{% url 'excluir-noticia' noticia.pk %}" class="btn btn-sm btn-danger">🗑️ Excluir</a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6" class="text-center">Nenhum registro encontrado.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="row g-4">
+        {% for noticia in object_list %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-success">{{ noticia.titulo }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Categoria: {{ noticia.categoria }}</h6>
+                    <p class="card-text">{{ noticia.conteudo|truncatechars:100 }}</p>
+                    <p class="card-text mb-1"><small class="text-muted">Publicado em: {{ noticia.data_publicacao }}</small></p>
+                    <p class="card-text mb-2"><small class="text-muted">Postado por: {{ noticia.postado_por }}</small></p>
+                    <div class="mt-auto">
+                        <div class="btn-group w-100" role="group" aria-label="Opções">
+                            <a href="{% url 'detalhar-noticia' noticia.pk %}" class="btn btn-sm btn-outline-primary">🔎 Ver</a>
+                            <a href="{% url 'editar-noticia' noticia.pk %}" class="btn btn-sm btn-outline-warning">✏️ Editar</a>
+                            <a href="{% url 'excluir-noticia' noticia.pk %}" class="btn btn-sm btn-outline-danger">🗑️ Excluir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center" role="alert">
+                Nenhum registro encontrado.
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 

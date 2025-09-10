@@ -46,6 +46,12 @@ class CadastroUsuarioView(CreateView):
 class Inicio(TemplateView):
     template_name = "paginas/index.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Listar as últimas três notícias
+        context['ultimas_noticias'] = Noticia.objects.all().order_by('-data_publicacao')[:3]
+        return context
+
 class SobreView (TemplateView):
     template_name = "paginas/sobre.html"
 
@@ -128,7 +134,13 @@ class NoticiaUpdate(LoginRequiredMixin, UpdateView):
     }
 
     def get_object(self, queryset = None):
-        obj = get_object_or_404(Noticia, pk=self.kwargs['pk'], postado_por=self.request.user) 
+        # Se for um superusuário (admin), pode editar qualquer notícia
+        if self.request.user.is_superuser:
+            obj = get_object_or_404(Noticia, pk=self.kwargs['pk'])
+            return obj
+        else:
+            # Usuário normal só pode editar suas próprias notícias
+            obj = get_object_or_404(Noticia, pk=self.kwargs['pk'], postado_por=self.request.user) 
         return obj
 
 class ComentarioUpdate(LoginRequiredMixin, UpdateView):
@@ -208,6 +220,20 @@ class MidiaDelete(LoginRequiredMixin, DeleteView):
 class NoticiaList(LoginRequiredMixin, ListView):
     model = Noticia
     template_name = 'paginas/noticia.html'
+
+    def get_queryset(self):
+        # Se recebe o parâmetro "limite" na URL, filtra as notícias
+        try:
+            limite = int(self.request.GET.get('limite'))
+        except (ValueError, TypeError):
+            limite = None
+        # COnsulta e ordana as notícias pela data de publicação decrescente
+        noticias = Noticia.objects.all().order_by('-data_publicacao')
+
+        # Se houver um limite, aplica o fatiamento de lista pela quantidade do limite
+        if limite:
+            noticias = noticias[:limite]
+        return noticias
 
 # fazer herança para ter tudo que tem na NoticiaList
 class MinhasNoticias(NoticiaList):

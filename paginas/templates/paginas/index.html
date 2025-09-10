@@ -29,21 +29,25 @@
                 <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'sobre' %}">Sobre nós</a>
                 </li>
+
                 <li class="nav-item mx-2">
-                <a class="nav-link text-white" href="{% url 'registrar' %}">Registar</a></li>
+                    <a class="nav-link text-white" href="{% url 'listar-noticia' %}?limite=5">Últimas notícias</a>
+                </li>
 
                 {% if request.user.is_authenticated %}
 
                     <!-- Dropdown Categoria -->
                     <li class="nav-item dropdown mx-2">
                         <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Categoria
+                            Cadastros
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'listar-categoria' %}">Categoria</a></li>
-                            <li><a class="dropdown-item" href="{% url 'listar-noticia' %}">Notícia</a></li>
-                            <li><a class="dropdown-item" href="{% url 'listar-midia' %}">Mídia</a></li>
-                            <li><a class="dropdown-item" href="{% url 'listar-comentario' %}">Comentário</a></li>
+                            <li><a class="dropdown-item" href="{% url 'listar-categoria' %}">Categorias</a></li>
+                            <li><a class="dropdown-item" href="{% url 'listar-noticia' %}">Notícias</a></li>
+                            <li><a class="dropdown-item" href="{% url 'listar-midia' %}">Mídias</a></li>
+                            <li><a class="dropdown-item" href="{% url 'listar-comentario' %}">Comentários</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'listar-minhas-noticias' %}">Minhas notícias</a></li>
                         </ul>
                     </li>
 
@@ -57,6 +61,10 @@
                     </li>
 
                 {% else %}
+
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="{% url 'registrar' %}">Registar</a>
+                    </li>
 
                     <!-- Link "Entrar" para usuários não logados -->
                     <li class="nav-item mx-2">
@@ -100,43 +108,29 @@
 
         <!-- Seção de Cards -->
         <div class="row mt-5">
-            <!-- Card 1 -->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{% static 'img/exemplo-imagem1.jpg' %}" class="card-img-top" alt="Imagem 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Título do Card 1</h5>
-                        <p class="card-text">Texto de exemplo sobre o impacto ambiental e ações positivas que podem ser feitas para ajudar a salvar o planeta.</p>
-                        <a href="#" class="btn btn-primary">Saiba mais</a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Card 2 -->
+            <!-- Para cada notícia faz um card -->
+            {% for noticia in ultimas_noticias %}
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="{% static 'img/exemplo-imagem2.jpg' %}" class="card-img-top" alt="Imagem 2">
+                    <!-- <img src="{% static 'img/exemplo-imagem1.jpg' %}" class="card-img-top" alt="Imagem 1"> -->
                     <div class="card-body">
-                        <h5 class="card-title">Título do Card 2</h5>
-                        <p class="card-text">Aqui você encontra algumas dicas sobre como reduzir o uso de plásticos e outras formas de poluição.</p>
-                        <a href="#" class="btn btn-primary">Ver mais</a>
-                    </div>
-                </div>
-            </div>
+                        <!-- cria um badge com a categoria -->
+                        <span class="badge bg-secondary mb-2">{{ noticia.categoria }}</span>
+                        <h5 class="card-title">{{ noticia.titulo }}</h5>
+                        <!-- exbe o conteúdo da notícia, mas só os 150 primeiros caracteres -->
+                        <p class="card-text">{{ noticia.conteudo|truncatechars:150 }}</p>
+                        <p>
+                            <a href="{% url 'detalhar-noticia' noticia.pk %}" class="btn btn-sm btn-primary d-inline-block float-start">Continuar lendo</a>
+                            <small class="float-end text-muted">Publicado em {{ noticia.data_publicacao|date:"d/m/y \à\s H:i" }}<br>Autor: {{ noticia.postado_por }}</small>
 
-            <!-- Card 3 -->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{% static 'img/exemplo-imagem3.jpg' %}" class="card-img-top" alt="Imagem 3">
-                    <div class="card-body">
-                        <h5 class="card-title">Título do Card 3</h5>
-                        <p class="card-text">Descubra o que é necessário para ajudar a preservação da biodiversidade e as ações que já estão em andamento.</p>
-                        <a href="#" class="btn btn-primary">Descubra como</a>
+                        </p>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+
         </div>
-
         {% endblock %}
 
         <!-- MENSAGENS DO DJANGO -->

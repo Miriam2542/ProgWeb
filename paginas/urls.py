@@ -61,7 +61,7 @@ urlpatterns = [
     path("listar/noticia/", NoticiaList.as_view(), name="listar-noticia"),
     path("listar/midia/", MidiaList.as_view(), name="listar-midia"),
 
-    path("listar/meus-posts/", MinhasNoticias.as_view(), name="listar-noticia"),
+    path("listar/minhas-noticias/", MinhasNoticias.as_view(), name="listar-minhas-noticias"),
     path('noticia/<int:pk>/', NoticiaDetailView.as_view(), name='detalhar-noticia'),
  
 ]
