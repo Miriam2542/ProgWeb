@@ -63,6 +63,7 @@ urlpatterns = [
 
     path("listar/minhas-noticias/", MinhasNoticias.as_view(), name="listar-minhas-noticias"),
     path('noticia/<int:pk>/', NoticiaDetailView.as_view(), name='detalhar-noticia'),
- 
+    
+     path("noticia/<int:pk>/", NoticiaDetailView.as_view(), name="detalhar-noticia"),
 ]
 

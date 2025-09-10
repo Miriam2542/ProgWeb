@@ -4,7 +4,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Categoria, Noticia, Comentario, Midia, User
-from django.views.generic import TemplateView , ListView
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth.models import User, Group
 from .forms import UsuarioCadastroForm
 from django.shortcuts import get_object_or_404
