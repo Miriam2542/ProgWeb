@@ -9,7 +9,7 @@ from django.contrib.auth.models import User, Group
 from .forms import UsuarioCadastroForm
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
-
+from braces.views import GroupRequiredMixin
 
 
 # Crie a view no final do arquivo ou em outro local que faça sentido
@@ -220,6 +220,8 @@ class MidiaDelete(LoginRequiredMixin, DeleteView):
 class NoticiaList(LoginRequiredMixin, ListView):
     model = Noticia
     template_name = 'paginas/noticia.html'
+    login_url = reverse_lazy('login')
+    group_required = "Administrador"
 
     def get_queryset(self):
         # Se recebe o parâmetro "limite" na URL, filtra as notícias
@@ -248,7 +250,13 @@ class CategoriaList(LoginRequiredMixin, ListView):
 
 class MidiaList(LoginRequiredMixin, ListView):
     model = Midia
+
     template_name = 'paginas/midia.html'
+     
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.groups.filter(name='Administrador').exists():
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
 
 class ComentarioList(LoginRequiredMixin, ListView):
     model = Comentario
@@ -257,6 +265,7 @@ class ComentarioList(LoginRequiredMixin, ListView):
     def get_queryset(self):
         # Apenas comentários do usuário logado
         return Comentario.objects.filter(autor=self.request.user)
+    
 
 ####################################################################
 
