@@ -58,7 +58,9 @@ class SobreView (TemplateView):
 class UsuarioView (TemplateView):
     template_name = "paginas/index.html"
 
-class CategoriaCreate(LoginRequiredMixin, CreateView):
+class CategoriaCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
+    group_required = ["Admin"]
     template_name = 'paginas/form.html'
     model = Categoria
     fields = ['nome','descricao' ]
@@ -68,7 +70,9 @@ class CategoriaCreate(LoginRequiredMixin, CreateView):
         'botao': 'Cadastrar',
     }
 
-class NoticiaCreate(LoginRequiredMixin, CreateView):
+class NoticiaCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
+    group_required = ["Admin"]
     model = Noticia
     fields = ['titulo','conteudo','categoria']
     template_name = 'paginas/form.html'
@@ -113,7 +117,7 @@ class MidiaCreate(LoginRequiredMixin, CreateView):
       
 ###############################################################
 
-class CategoriaUpdate(LoginRequiredMixin, UpdateView):
+class CategoriaUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Categoria
     fields = ['nome', 'descricao']
@@ -123,7 +127,7 @@ class CategoriaUpdate(LoginRequiredMixin, UpdateView):
         'botao' : 'Salvar',
     }
 
-class NoticiaUpdate(LoginRequiredMixin, UpdateView):
+class NoticiaUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     template_name = 'paginas/form.html'
     model = Noticia
     fields = ['titulo','conteudo','postado_por','categoria']
@@ -185,7 +189,7 @@ class ComentarioDelete(LoginRequiredMixin, DeleteView):
         return obj
 
 
-class NoticiaDelete(LoginRequiredMixin, DeleteView):
+class NoticiaDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
     model= Noticia
     template_name ='paginas/form.html'
     success_url = reverse_lazy('index')
