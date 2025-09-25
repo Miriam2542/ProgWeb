@@ -118,6 +118,8 @@ class MidiaCreate(LoginRequiredMixin, CreateView):
 ###############################################################
 
 class CategoriaUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
+    group_required = ["Admin"]
     template_name = 'paginas/form.html'
     model = Categoria
     fields = ['nome', 'descricao']
@@ -128,6 +130,8 @@ class CategoriaUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     }
 
 class NoticiaUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
+    group_required = ["Admin"]
     template_name = 'paginas/form.html'
     model = Noticia
     fields = ['titulo','conteudo','postado_por','categoria']
@@ -190,6 +194,8 @@ class ComentarioDelete(LoginRequiredMixin, DeleteView):
 
 
 class NoticiaDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
+    group_required = ["Admin"]
     model= Noticia
     template_name ='paginas/form.html'
     success_url = reverse_lazy('index')
@@ -203,6 +209,8 @@ class NoticiaDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
         return obj
     
 class CategoriaDelete(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
+    group_required = ["Admin"]
     model = Categoria
     template_name ='paginas/form.html'
     success_url = reverse_lazy('index') 
@@ -222,6 +230,8 @@ class MidiaDelete(LoginRequiredMixin, DeleteView):
 
 ####################################################################
 class NoticiaList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
+    group_required = ["Admin"]
     model = Noticia
     template_name = 'paginas/noticia.html'
     login_url = reverse_lazy('login')
