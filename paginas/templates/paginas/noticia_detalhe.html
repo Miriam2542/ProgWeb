@@ -13,6 +13,11 @@
             <h5>{{ noticia.titulo }}</h5>
         </div>
         <div class="card-body">
+            {% if noticia.imagem %}
+                <div class="mb-3 text-center">
+                    <img src="{{ noticia.imagem.url }}" class="img-fluid" alt="{{ noticia.titulo }}">
+                </div>
+            {% endif %}
             <p><strong>Categoria:</strong> {{ noticia.categoria }}</p>
             <p><strong>Publicado em:</strong> {{ noticia.data_publicacao|date:"d/m/Y H:i" }}</p>
             <p><strong>Postado por:</strong> {{ noticia.postado_por }}</p>

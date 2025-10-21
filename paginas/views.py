@@ -1,14 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
-from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import ListView, TemplateView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import Categoria, Noticia, Comentario, Midia, User
-from django.views.generic import TemplateView, ListView
+from .models import Categoria, Noticia, Comentario, Midia
 from django.contrib.auth.models import User, Group
 from .forms import UsuarioCadastroForm
 from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView
 from braces.views import GroupRequiredMixin
 
 
@@ -74,7 +71,7 @@ class NoticiaCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
     group_required = ["Admin"]
     model = Noticia
-    fields = ['titulo','conteudo','categoria']
+    fields = ['titulo','conteudo','categoria','imagem']
     template_name = 'paginas/form.html'
     success_url = reverse_lazy('listar-noticia')
     extra_context = {
@@ -134,7 +131,7 @@ class NoticiaUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     group_required = ["Admin"]
     template_name = 'paginas/form.html'
     model = Noticia
-    fields = ['titulo','conteudo','postado_por','categoria']
+    fields = ['titulo','conteudo','postado_por','categoria','imagem']
     success_url = reverse_lazy('index')
     extra_context = {
         'titulo': 'Atualização',
@@ -266,11 +263,14 @@ class MidiaList(LoginRequiredMixin, ListView):
     model = Midia
 
     template_name = 'paginas/midia.html'
-     
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.groups.filter(name='Administrador').exists():
-            raise PermissionDenied
-        return super().dispatch(request, *args, **kwargs)
+    
+    # Se quiser restringir a visualização a administradores, descomente o método abaixo
+    # e ajuste o nome do grupo conforme usado no sistema ('Admin' ou 'Administrador').
+    # Atualmente deixamos aberto para que todos os usuários logados vejam as mídias.
+    # def dispatch(self, request, *args, **kwargs):
+    #     if not request.user.groups.filter(name='Admin').exists():
+    #         raise PermissionDenied
+    #     return super().dispatch(request, *args, **kwargs)
 
 class ComentarioList(LoginRequiredMixin, ListView):
     model = Comentario

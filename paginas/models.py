@@ -1,4 +1,3 @@
-from pickle import TRUE
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -14,7 +13,7 @@ class Categoria(models.Model):
     
     def __str__(self):
         return f"{self.nome}"
-class Meta: 
+    class Meta:
         ordering = ['nome']
     
    
@@ -22,12 +21,13 @@ class Noticia(models.Model):
     titulo = models.CharField(max_length=50, verbose_name="Título")
     conteudo = models.TextField(verbose_name="Conteúdo")  
     categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT)
+    imagem = models.ImageField(upload_to='noticias/', null=True, blank=True)
     data_publicacao = models.DateTimeField(auto_now_add=True, verbose_name="data de publicação" )
     postado_por = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self):
         return f"{self.titulo}"
-    class Meta: 
+    class Meta:
         ordering = ['titulo']
     
 class Comentario(models.Model):
@@ -39,8 +39,7 @@ class Comentario(models.Model):
 
     def __str__(self):
         return f"{self.autor} : {self.texto[:30]}"
-    
-    class Meta: 
+    class Meta:
         ordering = ['-autor']
 
 class Midia(models.Model):
@@ -51,8 +50,8 @@ class Midia(models.Model):
 
     def __str__(self):
         return f"{self.tipo} - {self.descricao}"
-class Meta: 
-    ordering = ['tipo', 'descricao']
+    class Meta:
+        ordering = ['tipo', 'descricao']
     
 
 

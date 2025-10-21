@@ -5,147 +5,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     {% block titulo %}
     <title>Impactos Ambientais</title>
     {% endblock titulo %}
-    
+
+    <!-- Bootstrap via CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+
+    <!-- Seu CSS personalizado -->
+   
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="bg-success text-white">
+<style>
+  .navbar-nav .nav-link {
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: white;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
+
+  /* Hover simples */
+  .navbar-nav .nav-link:hover::after {
+    width: 70%;
+  }
+
+  /* Efeito ativo via JavaScript */
+  .navbar-nav .nav-link.active::after {
+    width: 70%;
+    background-color: #d9ffd9;
+  }
+
+  .navbar-nav .nav-link.active {
+    color: #d9ffd9 !important;
+  }
+</style>
+    <!-- NAVBAR RESPONSIVA -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container">
-            <ul class="nav justify-content-center py-3">
+            <!-- Logo / Nome -->
+            <a class="navbar-brand fw-bold" href="{% url 'index' %}">Impactos Ambientais</a>
 
-                <!-- Links visíveis para todos -->
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'index' %}">Início</a>
-                </li>
+            <!-- Botão "Hambúrguer" para celular -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'sobre' %}">Sobre nós</a>
-                </li>
+            <!-- Itens do menu -->
+            <div class="collapse navbar-collapse justify-content-center" id="menu">
+                <ul class="navbar-nav">
 
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'listar-noticia' %}?limite=5">Últimas notícias</a>
-                </li>
-
-                {% if request.user.is_authenticated %}
-
-                    <!-- Dropdown Categoria -->
-                    <li class="nav-item dropdown mx-2">
-                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Cadastros
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'listar-categoria' %}">Categorias</a></li>
-                            <li><a class="dropdown-item" href="{% url 'listar-noticia' %}">Notícias</a></li>
-                            <li><a class="dropdown-item" href="{% url 'listar-midia' %}">Mídias</a></li>
-                            <li><a class="dropdown-item" href="{% url 'listar-comentario' %}">Comentários</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{% url 'listar-minhas-noticias' %}">Minhas notícias</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Outros links para usuários logados -->
+                    <!-- Links visíveis para todos -->
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="{% url 'senha' %}">Atualizar senha</a>
+                        <a class="nav-link text-white" href="{% url 'index' %}">Início</a>
                     </li>
 
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="{% url 'logout' %}">Sair</a>
+                        <a class="nav-link text-white" href="{% url 'sobre' %}">Sobre nós</a>
                     </li>
-
-                {% else %}
 
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="{% url 'registrar' %}">Registar</a>
+                        <a class="nav-link text-white" href="{% url 'listar-noticia' %}?limite=5">Últimas notícias</a>
                     </li>
 
-                    <!-- Link "Entrar" para usuários não logados -->
-                    <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="{% url 'login' %}">Entrar</a>
-                    </li>
+                   
 
-                {% endif %}
-            </ul>
+                    {% if request.user.is_authenticated %}
+                        <!-- Dropdown de Cadastros -->
+                        <li class="nav-item dropdown mx-2">
+                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Cadastros
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'listar-categoria' %}">Categorias</a></li>
+                                <li><a class="dropdown-item" href="{% url 'listar-noticia' %}">Notícias</a></li>
+                                <li><a class="dropdown-item" href="{% url 'listar-midia' %}">Mídias</a></li>
+                                <li><a class="dropdown-item" href="{% url 'listar-comentario' %}">Comentários</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'listar-minhas-noticias' %}">Minhas notícias</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Outros links para logados -->
+                        <li class="nav-item mx-2">
+                            <a class="nav-link text-white" href="{% url 'senha' %}">Atualizar senha</a>
+                        </li>
+
+                        <li class="nav-item mx-2">
+                            <a class="nav-link text-white" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Sair</a>
+                        </li>
+
+                    {% else %}
+                        <li class="nav-item mx-2">
+                            <a class="nav-link text-white" href="{% url 'registrar' %}">Registrar</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link text-white" href="{% url 'login' %}">Entrar</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </nav>
 
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="container my-4">
-
-       {% block conteudo %}
-
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h3 class="card-title text-center mb-4">🌍 Página Inicial</h3>
-                    <p class="card-text">
-                        <strong>O Futuro do Planeta Está em Nossas Mãos!</strong><br><br>
-                        Ações humanas estão transformando o mundo de maneiras irreversíveis. 
-                        O aquecimento global, a poluição, o desmatamento e a perda de biodiversidade 
-                        estão afetando a nossa casa comum de forma alarmante.
-                    </p>
-                    <p class="card-text">
-                        <strong class="text-success">Mas há esperança!</strong><br>
-                        Com ações conscientes, políticas sustentáveis e engajamento coletivo, 
-                        podemos reverter muitos dos danos e construir um futuro mais verde e justo.
-                    </p>
+        {% block conteudo %}
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h3 class="card-title text-center mb-4">🌍 Página Inicial</h3>
+                            <p class="card-text">
+                                <strong>O Futuro do Planeta Está em Nossas Mãos!</strong><br><br>
+                                Ações humanas estão transformando o mundo de maneiras irreversíveis. 
+                                O aquecimento global, a poluição, o desmatamento e a perda de biodiversidade 
+                                estão afetando a nossa casa comum de forma alarmante.
+                            </p>
+                            <p class="card-text">
+                                <strong class="text-success">Mas há esperança!</strong><br>
+                                Com ações conscientes, políticas sustentáveis e engajamento coletivo, 
+                                podemos reverter muitos dos danos e construir um futuro mais verde e justo.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-  
-
-        <!-- Seção de Cards -->
+        <!-- Cards de notícias -->
         <div class="row mt-5">
-
-            <!-- Para cada notícia faz um card -->
             {% for noticia in ultimas_noticias %}
             <div class="col-md-4 mb-4">
-                <div class="card">
-                    <!-- <img src="{% static 'img/exemplo-imagem1.jpg' %}" class="card-img-top" alt="Imagem 1"> -->
+                <div class="card h-100 shadow-sm">
                     <div class="card-body">
-                        <!-- cria um badge com a categoria -->
                         <span class="badge bg-secondary mb-2">{{ noticia.categoria }}</span>
                         <h5 class="card-title">{{ noticia.titulo }}</h5>
-                        <!-- exbe o conteúdo da notícia, mas só os 150 primeiros caracteres -->
                         <p class="card-text">{{ noticia.conteudo|truncatechars:150 }}</p>
                         <p>
-                            <a href="{% url 'detalhar-noticia' noticia.pk %}" class="btn btn-sm btn-primary d-inline-block float-start">Continuar lendo</a>
-                            <small class="float-end text-muted">Publicado em {{ noticia.data_publicacao|date:"d/m/y \à\s H:i" }}<br>Autor: {{ noticia.postado_por }}</small>
-
+                            <a href="{% url 'detalhar-noticia' noticia.pk %}" class="btn btn-sm btn-primary">Continuar lendo</a>
+                            <small class="float-end text-muted">
+                                Publicado em {{ noticia.data_publicacao|date:"d/m/y \\à\\s H:i" }}<br>
+                                Autor: {{ noticia.postado_por }}
+                            </small>
                         </p>
                     </div>
                 </div>
             </div>
             {% endfor %}
-
         </div>
         {% endblock %}
 
-        <!-- MENSAGENS DO DJANGO -->
+        <!-- MENSAGENS DJANGO -->
         {% if messages %}
-     {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} mt-3">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endif %}
-
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
     </main>
 
     <!-- RODAPÉ -->
-    <footer class="bg-green text-center py-3 mt-4">
+    <footer class="bg-success text-white text-center py-3 mt-4">
         <div>
             <img src="{% static 'img/logodoTCC.png' %}" width="200" alt="Logo do TCC" />
         </div>
@@ -154,5 +188,27 @@
 
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- MODAL LOGOUT -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirmar saída</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    Tem certeza que deseja sair da sua conta?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Sair</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

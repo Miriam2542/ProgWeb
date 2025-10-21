@@ -20,6 +20,9 @@
         <div class="col-md-6 col-lg-4">
             <div class="card h-100 shadow-sm">
                 <div class="card-body d-flex flex-column">
+                    {% if noticia.imagem %}
+                    <img src="{{ noticia.imagem.url }}" class="img-fluid mb-2" alt="{{ noticia.titulo }}">
+                    {% endif %}
                     <h5 class="card-title text-success">{{ noticia.titulo }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Categoria: {{ noticia.categoria }}</h6>
                     <p class="card-text">{{ noticia.conteudo|truncatechars:100 }}</p>
