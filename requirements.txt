@@ -19,3 +19,7 @@ crispy-bootstrap5==2025.4
 psycopg2==2.9.10
 
 gunicorn
+google-cloud-tasks
+Pillow==10.1.0
+django-storages==1.13.2
+google-cloud-storage==2.12.0

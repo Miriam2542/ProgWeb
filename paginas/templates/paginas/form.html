@@ -8,25 +8,26 @@
 
   <h3 class="mb-4">{{ titulo }}</h3>
 
-  <form action="" method="post" enctype="multipart/form-data" novalidate>
+    <form action="" method="post" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
 
     {{ form|crispy }}
-    <div class="d-flex justify-content-between mt-3">
-      {% if botao == "Excluir" %}
-        <div class="alert alert-warning mt-3">
-          <h5>Deseja excluir o registro: <span class="text-danger">{{ object }}</span>?</h5>
-        </div>
-      {% endif %}
 
-      <button type="submit" class="btn 
+    {% if botao == "Excluir" %}
+      <div class="alert alert-warning mt-3">
+        <h5>Deseja excluir o registro: <span class="text-danger">{{ object }}</span>?</h5>
+      </div>
+    {% endif %}
+
+    <div class="d-flex justify-content-end mt-3">
+      <button type="submit" class="btn btn-sm
         {% if botao == "Excluir" %}btn-danger
         {% elif botao == "Salvar" or botao == "Adicionar" %}btn-success
-        {% else %}btn-primary{% endif %} mt-3">
+        {% else %}btn-primary{% endif %} px-3">
         {{ botao }}
       </button>
 
-      <a href="{% url 'listar-midia' %}" class="btn btn-secondary mt-3 ms-2">Cancelar</a>
+      <a href="javascript:history.back()" class="btn btn-sm btn-secondary ms-2 px-3">Cancelar</a>
     </div>
   </form>
 

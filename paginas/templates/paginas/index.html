@@ -1,4 +1,5 @@
 {% load static %}
+{% load meus_filtros %}
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -10,205 +11,181 @@
     <title>Impactos Ambientais</title>
     {% endblock titulo %}
 
-    <!-- Bootstrap via CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Seu CSS personalizado -->
-   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'css/estilo.css' %}" rel="stylesheet">
 </head>
 <body>
 
-<style>
-  .navbar-nav .nav-link {
-    position: relative;
-    transition: color 0.3s ease;
-  }
-
-  .navbar-nav .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background-color: white;
-    transition: all 0.3s ease;
-    transform: translateX(-50%);
-  }
-
-  /* Hover simples */
-  .navbar-nav .nav-link:hover::after {
-    width: 70%;
-  }
-
-  /* Efeito ativo via JavaScript */
-  .navbar-nav .nav-link.active::after {
-    width: 70%;
-    background-color: #d9ffd9;
-  }
-
-  .navbar-nav .nav-link.active {
-    color: #d9ffd9 !important;
-  }
-</style>
-    <!-- NAVBAR RESPONSIVA -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
         <div class="container">
-            <!-- Logo / Nome -->
             <a class="navbar-brand fw-bold" href="{% url 'index' %}">Impactos Ambientais</a>
-
-            <!-- Botão "Hambúrguer" para celular -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Menu">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-expanded="false">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Itens do menu -->
             <div class="collapse navbar-collapse justify-content-center" id="menu">
                 <ul class="navbar-nav">
-
-                    <!-- Links visíveis para todos -->
-                    <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="{% url 'index' %}">Início</a>
-                    </li>
-
-                    <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="{% url 'sobre' %}">Sobre nós</a>
-                    </li>
-
-                    <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="{% url 'listar-noticia' %}?limite=5">Últimas notícias</a>
-                    </li>
-
-                   
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="{% url 'index' %}">Início</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="{% url 'sobre' %}">Sobre nós</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="{% url 'listar-noticia' %}?limite=5">Últimas notícias</a></li>
 
                     {% if request.user.is_authenticated %}
-                        <!-- Dropdown de Cadastros -->
-                        <li class="nav-item dropdown mx-2">
-                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Cadastros
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url 'listar-categoria' %}">Categorias</a></li>
-                                <li><a class="dropdown-item" href="{% url 'listar-noticia' %}">Notícias</a></li>
-                                <li><a class="dropdown-item" href="{% url 'listar-midia' %}">Mídias</a></li>
-                                <li><a class="dropdown-item" href="{% url 'listar-comentario' %}">Comentários</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'listar-minhas-noticias' %}">Minhas notícias</a></li>
-                            </ul>
-                        </li>
-
-                        <!-- Outros links para logados -->
-                        <li class="nav-item mx-2">
-                            <a class="nav-link text-white" href="{% url 'senha' %}">Atualizar senha</a>
-                        </li>
-
-                        <li class="nav-item mx-2">
-                            <a class="nav-link text-white" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Sair</a>
-                        </li>
-
+                    <li class="nav-item dropdown mx-2">
+                        <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">Cadastros</a>
+                        <ul class="dropdown-menu shadow-sm">
+                            <li><a class="dropdown-item" href="{% url 'listar-categoria' %}">Categorias</a></li>
+                            <li><a class="dropdown-item" href="{% url 'listar-noticia' %}">Notícias</a></li>
+                            <li><a class="dropdown-item" href="{% url 'listar-materias' %}">Matérias Complementares</a></li>
+                            <li><a class="dropdown-item" href="{% url 'listar-comentario' %}">Comentários</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="{% url 'senha' %}">Atualizar senha</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-white" data-bs-toggle="modal" data-bs-target="#logoutModal">Sair</a></li>
                     {% else %}
-                        <li class="nav-item mx-2">
-                            <a class="nav-link text-white" href="{% url 'registrar' %}">Registrar</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link text-white" href="{% url 'login' %}">Entrar</a>
-                        </li>
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="{% url 'registrar' %}">Registrar</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link text-white" href="{% url 'login' %}">Entrar</a></li>
                     {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
 
+
+    <!-- HERO -->
+    <section class="py-5 mb-4 bg-success bg-gradient text-white">
+        <div class="container">
+            <div class="row align-items-center">
+
+                <div class="col-md-7">
+                    <h1 class="display-5 fw-bold">Impactos Ambientais</h1>
+                    <p class="lead mb-4">Notícias, ações e conteúdos sobre meio ambiente, cidadania e sustentabilidade.</p>
+
+                    <a href="{% url 'listar-noticia' %}" class="btn btn-light btn-lg me-2 shadow-sm">
+                        <i class="bi bi-journal-text me-1"></i> Últimas notícias
+                    </a>
+
+                    {% if request.user.is_authenticated %}
+                    <a href="{% url 'adicionar-noticia' %}" class="btn btn-outline-light btn-lg shadow-sm">
+                        <i class="bi bi-plus-lg me-1"></i> Adicionar notícia
+                    </a>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-5 text-center">
+                    <img src="{% static 'IMG/ods.png' %}" class="img-fluid rounded shadow-sm" alt="ODS">
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="container my-4">
         {% block conteudo %}
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card shadow">
-                        <div class="card-body">
-                            <h3 class="card-title text-center mb-4">🌍 Página Inicial</h3>
-                            <p class="card-text">
-                                <strong>O Futuro do Planeta Está em Nossas Mãos!</strong><br><br>
-                                Ações humanas estão transformando o mundo de maneiras irreversíveis. 
-                                O aquecimento global, a poluição, o desmatamento e a perda de biodiversidade 
-                                estão afetando a nossa casa comum de forma alarmante.
-                            </p>
-                            <p class="card-text">
-                                <strong class="text-success">Mas há esperança!</strong><br>
-                                Com ações conscientes, políticas sustentáveis e engajamento coletivo, 
-                                podemos reverter muitos dos danos e construir um futuro mais verde e justo.
-                            </p>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+        {% for noticia in ultimas_noticias %}
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0">
+
+                    {% if noticia.imagem %}
+                    <img src="{{ noticia.imagem.url }}" class="card-img-top rounded-top" alt="{{ noticia.titulo }}" style="object-fit: cover; height: 180px;">
+                    {% else %}
+                    <div class="bg-light text-center d-flex align-items-center justify-content-center rounded-top" style="height: 180px;">
+                        <span class="text-muted">Sem imagem</span>
+                    </div>
+                    {% endif %}
+
+                    <div class="card-body d-flex flex-column">
+                        {% if noticia.categoria %}
+                        <span class="badge text-white mb-2" style="background-color: {{ noticia.categoria|categoria_cor }};">
+                            {{ noticia.categoria.nome }}
+                        </span>
+                        {% endif %}
+
+                        <h4 class="card-title fw-semibold">{{ noticia.titulo }}</h4>
+                        <p class="card-text text-muted small">{{ noticia.conteudo|truncatechars:140 }}</p>
+
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <a href="{% url 'detalhar-noticia' noticia.pk %}" class="btn btn-sm btn-primary rounded-pill px-3">
+                                <i class="bi bi-eye me-1"></i> Ler
+                            </a>
+                            <small class="text-muted">{{ noticia.data_publicacao|date:"d/m/Y" }}</small>
                         </div>
                     </div>
                 </div>
             </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">Nenhuma notícia encontrada.</div>
+            </div>
+        {% endfor %}
         </div>
 
-        <!-- Cards de notícias -->
-        <div class="row mt-5">
-            {% for noticia in ultimas_noticias %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <span class="badge bg-secondary mb-2">{{ noticia.categoria }}</span>
-                        <h5 class="card-title">{{ noticia.titulo }}</h5>
-                        <p class="card-text">{{ noticia.conteudo|truncatechars:150 }}</p>
-                        <p>
-                            <a href="{% url 'detalhar-noticia' noticia.pk %}" class="btn btn-sm btn-primary">Continuar lendo</a>
-                            <small class="float-end text-muted">
-                                Publicado em {{ noticia.data_publicacao|date:"d/m/y \\à\\s H:i" }}<br>
-                                Autor: {{ noticia.postado_por }}
-                            </small>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
         {% endblock %}
 
         <!-- MENSAGENS DJANGO -->
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} mt-3">
-                    {{ message }}
-                </div>
+            <div class="alert alert-{{ message.tags }} mt-3">{{ message }}</div>
             {% endfor %}
         {% endif %}
     </main>
 
-    <!-- RODAPÉ -->
-    <footer class="bg-success text-white text-center py-3 mt-4">
-        <div>
-            <img src="{% static 'img/logodoTCC.png' %}" width="200" alt="Logo do TCC" />
+
+    <!-- FOOTER -->
+    <footer class="bg-success text-white py-3 mt-4">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 text-center">
+            <div><img src="{% static 'IMG/impact-Brasil.png' %}" class="img-fluid" style="max-height:48px;"></div>
+            <div>Desenvolvido por Miriam Cauneto</div>
+            <div><img src="{% static 'IMG/paranavai-vertical.png' %}" class="img-fluid" style="max-height:48px;"></div>
         </div>
-        <div>Desenvolvido por Miriam Cauneto</div>
     </footer>
 
-    <!-- SCRIPTS -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+
     <!-- MODAL LOGOUT -->
-    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+            <div class="modal-content shadow">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">Confirmar saída</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    <h5 class="modal-title">Confirmar saída</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    Tem certeza que deseja sair da sua conta?
-                </div>
+
+                <div class="modal-body">Tem certeza que deseja sair da sua conta?</div>
+
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <form method="post" action="{% url 'logout' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Sair</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form method="post" action="{% url 'logout' %}">{% csrf_token %}
+                        <button class="btn btn-danger" type="submit">Sair</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+</body>
+</html>
+
+    <script>
+        // Se a URL contiver ?nogreen=1 adiciona a classe body.no-green para remover fundos verdes.
+        (function(){
+            try{
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('nogreen') === '1') {
+                    document.body.classList.add('no-green');
+                }
+            }catch(e){
+                // silencioso em navegadores antigos
+            }
+        })();
+    </script>
 </body>
 </html>

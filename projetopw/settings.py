@@ -10,26 +10,24 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# ----------------------------------------------------------------------
+# CONFIGURAÇÕES DE SEGURANÇA
+# ----------------------------------------------------------------------
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', "django-insecure-e=0_o^75@2op2mzd2@h*zab_^-u-(zq!$pt13bf&k1$zha)8cf")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-e=0_o^75@2op2mzd2@h*zab_^-u-(zq!$pt13bf&k1$zha)8cf"
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Ativa DEBUG apenas se variável de ambiente for True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ["*"]
 
-
-# Application definition
-
+# ----------------------------------------------------------------------
+# APLICAÇÕES INSTALADAS
+# ----------------------------------------------------------------------
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -38,18 +36,22 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    #MEUS APPS ATIVADOS
-
+    # Apps do projeto
     "paginas.apps.PaginasConfig",
 
-    #instalar o crispy forms e bootstrap 5
-    'crispy_forms',
-    'crispy_bootstrap5' ,
+    # Bibliotecas extras
+    "crispy_forms",
+    "crispy_bootstrap5",
+    # Armazenamento em nuvem
+    "storages",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
+# ----------------------------------------------------------------------
+# MIDDLEWARE
+# ----------------------------------------------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -62,6 +64,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "projetopw.urls"
 
+# ----------------------------------------------------------------------
+# TEMPLATES
+# ----------------------------------------------------------------------
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -80,71 +85,77 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "projetopw.wsgi.application"
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
+# ----------------------------------------------------------------------
+# BANCO DE DADOS (Supabase)
+# ----------------------------------------------------------------------
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "postgres",
         "USER": "postgres.ywoluodfzivuwgqtilyg",
-        "PASSWORD": "@IFPR2025",
+        "PASSWORD": "passeideanoenauel",
         "HOST": "aws-0-sa-east-1.pooler.supabase.com",
         "PORT": "5432",
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
+# ----------------------------------------------------------------------
+# VALIDAÇÃO DE SENHAS
+# ----------------------------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
+# ----------------------------------------------------------------------
+# LOCALIZAÇÃO
+# ----------------------------------------------------------------------
 LANGUAGE_CODE = "pt-br"
-
 TIME_ZONE = "America/Sao_Paulo"
-
 USE_I18N = True
-
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
+# ----------------------------------------------------------------------
+# ARQUIVOS ESTÁTICOS E MÍDIA
+# ----------------------------------------------------------------------
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "static_gcloud"
 
-STATIC_URL = "static/"
-STATICFILES_DIRS = [ BASE_DIR / "static" ]
-STATIC_ROOT = 'static_gcloud/' # Alterar essa configuração
+# Em desenvolvimento usamos URL relativa para servir mídia localmente via MEDIA_ROOT
+# Em produção, quando GS_BUCKET_NAME estiver definido, MEDIA_URL será sobrescrito
+# para apontar para o bucket GCS.
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+# ----------------------------------------------------------------------
+# GOOGLE CLOUD STORAGE (para produção)
+# ----------------------------------------------------------------------
+GS_BUCKET_NAME = os.environ.get('GS_BUCKET_NAME')
 
+if GS_BUCKET_NAME:
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    GS_DEFAULT_ACL = 'publicRead'
+    MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
+
+# ----------------------------------------------------------------------
+# PADRÕES
+# ----------------------------------------------------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# ----------------------------------------------------------------------
+# LOGIN/LOGOUT
+# ----------------------------------------------------------------------
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'
+
+
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+# Read SECRET_KEY from environment in production; keep the fallback for local dev

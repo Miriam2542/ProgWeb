@@ -1,0 +1,4 @@
+Este arquivo é um backup do item original 'static_gcloud' que existia em `projetopw`.
+Ele foi renomeado para evitar conflito com a pasta `static_gcloud/` na raiz do projeto.
+
+Se precisar restaurar, renomeie este arquivo para `static_gcloud` ou mova o conteúdo apropriado.

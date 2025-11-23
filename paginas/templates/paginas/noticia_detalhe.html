@@ -1,5 +1,6 @@
 {% extends "paginas/index.html" %}
 {% load static %}
+{% load meus_filtros %}
 
 {% block conteudo %}
 
@@ -10,24 +11,74 @@
 
     <div class="card mb-4">
         <div class="card-header bg-success text-white">
-            <h5>{{ noticia.titulo }}</h5>
+            <h3 class="m-0">{{ noticia.titulo }}</h3>
         </div>
         <div class="card-body">
             {% if noticia.imagem %}
                 <div class="mb-3 text-center">
-                    <img src="{{ noticia.imagem.url }}" class="img-fluid" alt="{{ noticia.titulo }}">
+                    <img src="{{ noticia.imagem.url }}" loading="lazy" class="img-fluid" alt="{{ noticia.titulo }}">
+                </div>
+            {% else %}
+                <div class="mb-3 text-center img-placeholder" style="height:240px;">
+                    Sem imagem
                 </div>
             {% endif %}
-            <p><strong>Categoria:</strong> {{ noticia.categoria }}</p>
+            <p>
+                <strong>Categoria:</strong>
+                {% if noticia.categoria %}
+                    <a href="{% url 'listar-noticia' %}?categoria={{ noticia.categoria.pk }}" class="badge text-white text-decoration-none" style="background-color: {{ noticia.categoria|categoria_cor }};">{{ noticia.categoria.nome }}</a>
+                {% else %}
+                    <small class="text-muted">Sem categoria</small>
+                {% endif %}
+            </p>
             <p><strong>Publicado em:</strong> {{ noticia.data_publicacao|date:"d/m/Y H:i" }}</p>
             <p><strong>Postado por:</strong> {{ noticia.postado_por }}</p>
             <hr>
             <p>{{ noticia.conteudo }}</p>
         </div>
         <div class="card-footer text-end">
-            <a href="{% url 'editar-noticia' noticia.pk %}" class="btn btn-warning btn-sm">✏️ Editar</a>
-            <a href="{% url 'excluir-noticia' noticia.pk %}" class="btn btn-danger btn-sm">🗑️ Excluir</a>
-            <a href="{% url 'listar-noticia' %}" class="btn btn-secondary btn-sm">🔙 Voltar</a>
+            {# Mostrar botão de editar para: superuser, autor da notícia ou membros do grupo Admin #}
+            {% if request.user.is_superuser or request.user|in_group:"Admin" or noticia.postado_por == request.user %}
+            <a href="{% url 'editar-noticia' noticia.pk %}" class="btn btn-sm btn-warning me-2">
+                <i class="bi bi-pencil me-1" aria-hidden="true"></i>Editar
+            </a>
+            {% endif %}
+            {% if request.user.is_superuser or request.user|in_group:"Admin" %}
+            <a href="{% url 'excluir-noticia' noticia.pk %}" class="btn btn-sm btn-danger me-2">
+                <i class="bi bi-trash me-1" aria-hidden="true"></i>Excluir
+            </a>
+            {% if request.user.is_superuser or request.user|in_group:"Admin" %}
+            <!-- Botão que abre modal para confirmar limpeza de comentários -->
+            <button type="button" class="btn btn-sm btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#limparComentariosModal">
+                <i class="bi bi-trash-fill me-1" aria-hidden="true"></i>Limpar comentários
+            </button>
+
+            <!-- Modal de confirmação -->
+            <div class="modal fade" id="limparComentariosModal" tabindex="-1" aria-labelledby="limparComentariosLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="limparComentariosLabel">Confirmar remoção</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza que deseja remover todos os comentários desta notícia? Esta ação não pode ser desfeita.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <form action="{% url 'limpar-comentarios' noticia.pk %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Remover comentários</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            <a href="{% url 'index' %}" onclick="history.back(); return false;" class="btn btn-secondary btn-sm">
+                <i class="bi bi-arrow-left me-1" aria-hidden="true"></i>Voltar
+            </a>
         </div>
     </div>
 
@@ -46,6 +97,25 @@
         {% else %}
             <div class="alert alert-info">Nenhum comentário para esta notícia ainda.</div>
         {% endif %}
+        
+        <!-- Formulário de comentário embutido -->
+        <div class="mt-4">
+            {% if request.user.is_authenticated %}
+                <form method="post" action="" novalidate>
+                    {% csrf_token %}
+                    {{ comentario_form.non_field_errors }}
+                    <div class="mb-2">
+                        {{ comentario_form.texto.errors }}
+                        {{ comentario_form.texto }}
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-success">Adicionar comentário</button>
+                    </div>
+                </form>
+            {% else %}
+                <div class="alert alert-secondary mt-3">Faça login para adicionar um comentário.</div>
+            {% endif %}
+        </div>
     </section>
 </div>
 

@@ -1,40 +1,112 @@
- 
- {% extends "paginas/index.html" %}
+
+
+{% extends "paginas/index.html" %}
 
  {% load static %}
-
-{% block conteudo %}
 
   <h3> Sobre Nós </h3>
   <a href= "{% url "sobre" %}">
       
-  </a>
-<p> Os Impactos Ambientais Causados pelo Homem
-  A cada dia, o planeta enfrenta consequências cada vez mais graves devido às ações humanas. A degradação ambiental está em um ritmo acelerado e afeta diretamente a biodiversidade, os ecossistemas e a nossa própria qualidade de vida. Fenômenos como o aquecimento global, a poluição da água e do solo, o desmatamento e eventos climáticos extremos são apenas algumas das marcas de uma era marcada pela insustentabilidade.
-  
-  Esses problemas não afetam apenas o meio ambiente, mas também geram consequências profundas nas nossas economias, saúde e bem-estar. No entanto, embora muitos desses danos sejam irreversíveis, ainda existe um caminho a seguir. Prevenção e mitigação são fundamentais para minimizar os impactos, restaurar o equilíbrio ecológico e garantir um futuro sustentável para as próximas gerações.
-  
-  Neste espaço, você encontrará informações essenciais sobre os principais impactos ambientais, suas consequências e, mais importante ainda, as ações e soluções que todos podemos adotar para reverter esse cenário. Junte-se a nós na luta por um mundo mais equilibrado e saudável!
-  <p> Por que isso é importante?</p>
-  
-  <p>🌍 O aquecimento global e suas consequências diretas no clima, nos ecossistemas e na vida cotidiana.  </p>
-  
-    <p>🌱 A perda de biodiversidade, que coloca em risco a estabilidade dos ecossistemas essenciais para nossa sobrevivência.  </p>
-  
-      <p>🌊 A poluição das águas e do solo, que compromete a saúde pública e a segurança alimentar.  </p>
-  
-        <p>🌳 O desmatamento e a destruição de habitats naturais, afetando a vida selvagem e contribuindo para a mudança climática.  </p>
-  
-        <p>Como podemos ajudar?  </p>
-  
-        <p>Reduzindo o consumo e promovendo a reciclagem.  </p>
-  
-        <p> Investindo em energias renováveis e opções sustentáveis.  </p>
-  
-        <p>Apoiar políticas públicas e iniciativas de preservação e restauração ambiental.  </p>
-  
-        <p>Adotando práticas mais responsáveis em nosso dia a dia, desde o transporte até o consumo alimentar.  </p>
-  
-  
-</p>
+  {% block conteudo %}
+<div class="container mt-4">
+  <!-- Carrossel: slide sobre o projeto e slide com ODS contemplados -->
+  <div id="sobreCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="d-flex align-items-center justify-content-center" style="min-height:220px; background: linear-gradient(90deg,#e9f7ef 0%, #d4f0dc 100%);">
+          <div class="container text-center">
+            <h4 class="fw-bold text-success">Conheça nosso projeto</h4>
+            <p class="mb-0">Informações, notícias e ações voltadas à sustentabilidade e cidadania.</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="d-flex align-items-center justify-content-center" style="min-height:220px; background:#f8f9fa;">
+          <div class="container text-center">
+            <h4 class="fw-bold text-success">ODS que o projeto contempla</h4>
+            <p class="mb-2 small">Exemplos: ODS 4 — Educação de Qualidade · ODS 13 — Ação contra a mudança do clima · ODS 15 — Vida terrestre</p>
+            <div class="d-flex justify-content-center align-items-center">
+              <img src="{% static 'IMG/ods4.png' %}" alt="ODS 4" class="mx-2" style="max-height:64px;">
+              <img src="{% static 'IMG/ods13.png' %}" alt="ODS 13" class="mx-2" style="max-height:64px;">
+              <img src="{% static 'IMG/ods15.png' %}" alt="ODS 15" class="mx-2" style="max-height:64px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#sobreCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#sobreCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Próximo</span>
+    </button>
+  </div>
+  <h3 class="mb-4 text-success text-center fw-bold">Sobre Nós</h3>
+  <div class="accordion" id="accordionSobre">
+    <!-- Quem Somos -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingQuemSomos">
+        <button class="accordion-button fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseQuemSomos" aria-expanded="true" aria-controls="collapseQuemSomos">
+          Quem Somos
+        </button>
+      </h2>
+      <div id="collapseQuemSomos" class="accordion-collapse collapse show" aria-labelledby="headingQuemSomos" data-bs-parent="#accordionSobre">
+        <div class="accordion-body">
+          A cada dia, o planeta enfrenta consequências cada vez mais graves devido às ações humanas. Nosso objetivo é conscientizar, informar e incentivar mudanças positivas para um futuro sustentável.
+        </div>
+      </div>
+    </div>
+    <!-- Porque isso importa? -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingImportancia">
+        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseImportancia" aria-expanded="false" aria-controls="collapseImportancia">
+          Por que isso é importante?
+        </button>
+      </h2>
+      <div id="collapseImportancia" class="accordion-collapse collapse" aria-labelledby="headingImportancia" data-bs-parent="#accordionSobre">
+        <div class="accordion-body">
+          <ul>
+            <li>🌍 O aquecimento global e suas consequências diretas no clima, nos ecossistemas e na vida cotidiana.</li>
+            <li>🌱 A perda de biodiversidade, que coloca em risco a estabilidade dos ecossistemas essenciais para nossa sobrevivência.</li>
+            <li>🌊 A poluição das águas e do solo, que compromete a saúde pública e a segurança alimentar.</li>
+            <li>🌳 O desmatamento e a destruição de habitats naturais, afetando a vida selvagem e contribuindo para a mudança climática.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Como ajudar -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingComoAjudar">
+        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComoAjudar" aria-expanded="false" aria-controls="collapseComoAjudar">
+          Como podemos ajudar?
+        </button>
+      </h2>
+      <div id="collapseComoAjudar" class="accordion-collapse collapse" aria-labelledby="headingComoAjudar" data-bs-parent="#accordionSobre">
+        <div class="accordion-body">
+          <ul>
+            <li>Reduzindo o consumo e promovendo a reciclagem.</li>
+            <li>Investindo em energias renováveis e opções sustentáveis.</li>
+            <li>Apoiando políticas públicas e iniciativas de preservação e restauração ambiental.</li>
+            <li>Adotando práticas mais responsáveis em nosso dia a dia, desde o transporte até o consumo alimentar.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Missão do site -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingMissao">
+        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMissao" aria-expanded="false" aria-controls="collapseMissao">
+          Nossa Missão
+        </button>
+      </h2>
+      <div id="collapseMissao" class="accordion-collapse collapse" aria-labelledby="headingMissao" data-bs-parent="#accordionSobre">
+        <div class="accordion-body">
+          Neste espaço, você encontra informações essenciais sobre impactos ambientais, suas consequências e ações que todos podemos adotar para reverter esse cenário. Junte-se à luta por um mundo mais equilibrado e saudável!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

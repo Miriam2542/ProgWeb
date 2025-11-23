@@ -11,7 +11,10 @@
     </header>
 
     <div class="mb-3">
-        <a href="{% url 'adicionar-categoria' %}" class="btn btn-primary">➕ Adicionar Categoria</a>
+        <a href="{% url 'adicionar-categoria' %}" class="btn btn-success">
+            <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>
+            Adicionar Categoria
+        </a>
     </div>
 
     <div class="table-responsive">
@@ -29,8 +32,12 @@
                     <td>{{ categoria.nome }}</td>
                     <td>{{ categoria.descricao }}</td>
                     <td>
-                        <a href="{% url 'editar-categoria' categoria.pk %}" class="btn btn-sm btn-warning">✏️ Editar</a>
-                        <a href="{% url 'excluir-categoria' categoria.pk %}" class="btn btn-sm btn-danger">🗑️ Excluir</a>
+                        <a href="{% url 'editar-categoria' categoria.pk %}" class="btn btn-sm btn-warning me-2">
+                            <i class="bi bi-pencil me-1" aria-hidden="true"></i>Editar
+                        </a>
+                        <a href="{% url 'excluir-categoria' categoria.pk %}" class="btn btn-sm btn-danger">
+                            <i class="bi bi-trash me-1" aria-hidden="true"></i>Excluir
+                        </a>
                     </td>
                 </tr>
                 {% empty %}

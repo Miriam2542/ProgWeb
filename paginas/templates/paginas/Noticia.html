@@ -2,6 +2,7 @@
 {% extends "paginas/index.html" %}
 
 {% load static %}
+{% load meus_filtros %}
 
 {% block conteudo %}
 
@@ -12,7 +13,10 @@
     </header>
 
     <div class="mb-3">
-        <a href="{% url 'adicionar-noticia' %}" class="btn btn-primary">➕ Adicionar Notícia</a>
+        <a href="{% url 'adicionar-noticia' %}" class="btn btn-success">
+            <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>
+            Adicionar Notícia
+        </a>
     </div>
 
     <div class="row g-4">
@@ -21,18 +25,38 @@
             <div class="card h-100 shadow-sm">
                 <div class="card-body d-flex flex-column">
                     {% if noticia.imagem %}
-                    <img src="{{ noticia.imagem.url }}" class="img-fluid mb-2" alt="{{ noticia.titulo }}">
+                    <img src="{{ noticia.imagem.url }}" loading="lazy" class="img-fluid mb-2" alt="{{ noticia.titulo }}">
+                    {% else %}
+                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400'><rect fill='%23e9ecef' width='100%25' height='100%25'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23666' font-size='18' font-family='Arial,Helvetica,sans-serif'>Sem imagem</text></svg>" loading="lazy" class="img-fluid mb-2 img-placeholder" alt="Sem imagem">
                     {% endif %}
-                    <h5 class="card-title text-success">{{ noticia.titulo }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Categoria: {{ noticia.categoria }}</h6>
+                    <h4 class="card-title text-success">{{ noticia.titulo }}</h4>
+                    <h6 class="card-subtitle mb-2">
+                        Categoria:
+                        {% if noticia.categoria %}
+                            <a href="{% url 'listar-noticia' %}?categoria={{ noticia.categoria.pk }}" class="badge text-white text-decoration-none" style="background-color: {{ noticia.categoria|categoria_cor }};">{{ noticia.categoria.nome }}</a>
+                        {% else %}
+                            <small class="text-muted">Sem categoria</small>
+                        {% endif %}
+                    </h6>
                     <p class="card-text">{{ noticia.conteudo|truncatechars:100 }}</p>
                     <p class="card-text mb-1"><small class="text-muted">Publicado em: {{ noticia.data_publicacao }}</small></p>
                     <p class="card-text mb-2"><small class="text-muted">Postado por: {{ noticia.postado_por }}</small></p>
                     <div class="mt-auto">
                         <div class="btn-group w-100" role="group" aria-label="Opções">
-                            <a href="{% url 'detalhar-noticia' noticia.pk %}" class="btn btn-sm btn-outline-primary">🔎 Ver</a>
-                            <a href="{% url 'editar-noticia' noticia.pk %}" class="btn btn-sm btn-outline-warning">✏️ Editar</a>
-                            <a href="{% url 'excluir-noticia' noticia.pk %}" class="btn btn-sm btn-outline-danger">🗑️ Excluir</a>
+                            <a href="{% url 'detalhar-noticia' noticia.pk %}" class="btn btn-sm btn-primary me-2">
+                                <i class="bi bi-eye me-1" aria-hidden="true"></i>Ver
+                            </a>
+                            {# Mostrar Editar para: superuser, autor da notícia ou membros do grupo Admin #}
+                            {% if request.user.is_superuser or request.user|in_group:"Admin" or noticia.postado_por == request.user %}
+                            <a href="{% url 'editar-noticia' noticia.pk %}" class="btn btn-sm btn-warning me-2">
+                                <i class="bi bi-pencil me-1" aria-hidden="true"></i>Editar
+                            </a>
+                            {% endif %}
+                            {% if request.user.is_superuser or request.user|in_group:"Admin" %}
+                            <a href="{% url 'excluir-noticia' noticia.pk %}" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash me-1" aria-hidden="true"></i>Excluir
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

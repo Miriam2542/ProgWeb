@@ -1,0 +1,61 @@
+{% extends "paginas/index.html" %}
+{% load static %}
+
+{% block conteudo %}
+<div class="container mt-4">
+    <h3 class="text-danger">Confirmar exclusão da categoria: {{ categoria.nome }}</h3>
+
+    {% if noticias_relacionadas.exists %}
+    <div class="alert alert-warning">
+        Esta categoria possui <strong>{{ noticias_relacionadas.count }}</strong> notícia(s) associada(s). Escolha uma ação:
+    </div>
+    {% if filtrando_publicadas %}
+    <div class="alert alert-info">
+        Observação: apenas notícias publicadas estão sendo listadas e serão afetadas por estas ações.
+    </div>
+    {% endif %}
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5>Notícias relacionadas</h5>
+            <ul>
+                {% for n in noticias_relacionadas %}
+                <li>{{ n.titulo }} — <small class="text-muted">{{ n.postado_por }}</small></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Reatribuir notícias para:</label>
+            <select name="new_category" class="form-select">
+                <option value="">-- escolha uma categoria --</option>
+                {% for c in outras_categorias %}
+                <option value="{{ c.pk }}">{{ c.nome }}</option>
+                {% endfor %}
+            </select>
+            <div class="form-text">Selecione uma categoria para mover todas as notícias antes de excluir.</div>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" name="action" value="reassign" class="btn btn-primary">Reatribuir e excluir categoria</button>
+            <button type="submit" name="action" value="delete_notices" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir todas as notícias desta categoria? Esta ação removerá também os comentários relacionados.')">Excluir notícias e categoria</button>
+            <button type="submit" name="action" value="cancel" class="btn btn-secondary">Cancelar</button>
+        </div>
+    </form>
+
+    {% else %}
+    <div class="alert alert-info">
+        Esta categoria não possui notícias associadas. Você pode excluí-la imediatamente.
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="action" value="delete_notices" class="btn btn-danger">Excluir categoria</button>
+        <a href="{% url 'listar-categoria' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+    {% endif %}
+
+</div>
+{% endblock %}
