@@ -10,6 +10,7 @@ from .views import NoticiaList, ComentarioList, MidiaList, CategoriaList
 from .views import CadastroUsuarioView, limpar_comentarios
 from .views import MinhasNoticias
 from .views import NoticiaDetailView
+from .views import PerfilView
 from django.contrib.auth import views as auth_views
 
 from .views import CadastroUsuarioView
@@ -63,6 +64,7 @@ urlpatterns = [
     path("listar/materias/", MidiaList.as_view(), name="listar-materias"),
 
     path("listar/minhas-noticias/", MinhasNoticias.as_view(), name="listar-minhas-noticias"),
+    path("perfil/", PerfilView.as_view(), name="perfil"),
     path('noticia/<int:pk>/', NoticiaDetailView.as_view(), name='detalhar-noticia'),
     
     path("noticia/<int:pk>/", NoticiaDetailView.as_view(), name="detalhar-noticia"),

@@ -128,7 +128,10 @@ STATIC_ROOT = BASE_DIR / "static_gcloud"
 # Em produção, quando GS_BUCKET_NAME estiver definido, MEDIA_URL será sobrescrito
 # para apontar para o bucket GCS.
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# Forçar para o diretório de mídia real do seu projeto local (Windows)
+# Ajuste aqui se mover a pasta de mídia.
+from pathlib import Path as _Path
+MEDIA_ROOT = _Path(r"C:\Users\Jovenal\ProgWeb\ProgWeb\media")
 
 # ----------------------------------------------------------------------
 # GOOGLE CLOUD STORAGE (para produção)

@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from .models import Categoria, Noticia, Comentario, Midia
 from django.db.models.deletion import ProtectedError
 from django.db import transaction
+from django.db.models import Q
 from django.contrib.auth.models import User, Group
 from .forms import UsuarioCadastroForm
 from django.shortcuts import get_object_or_404
@@ -50,6 +51,22 @@ class Inicio(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Se houver parâmetro de busca `q`, procurar por título/conteúdo
+        q = self.request.GET.get('q')
+        if q:
+            if hasattr(Noticia, 'publicado'):
+                noticias = Noticia.objects.filter(publicado=True).filter(
+                    Q(titulo__icontains=q) | Q(conteudo__icontains=q)
+                ).order_by('-data_publicacao')
+            else:
+                noticias = Noticia.objects.filter(
+                    Q(titulo__icontains=q) | Q(conteudo__icontains=q)
+                ).order_by('-data_publicacao')
+            context['ultimas_noticias'] = noticias
+            context['search_query'] = q
+            context['search_results'] = True
+            return context
+
         # Listar as últimas três notícias (somente publicadas quando o campo existir)
         if hasattr(Noticia, 'publicado'):
             context['ultimas_noticias'] = Noticia.objects.filter(publicado=True).order_by('-data_publicacao')[:3]
@@ -62,6 +79,17 @@ class SobreView (TemplateView):
 
 class UsuarioView (TemplateView):
     template_name = "paginas/index.html"
+
+
+class PerfilView(LoginRequiredMixin, TemplateView):
+    """Exibe o perfil do usuário logado."""
+    login_url = reverse_lazy('login')
+    template_name = 'paginas/perfil.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usuario'] = self.request.user
+        return context
 
 class CategoriaCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')

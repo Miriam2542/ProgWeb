@@ -33,6 +33,16 @@
 
                     {% if request.user.is_authenticated %}
                     <li class="nav-item dropdown mx-2">
+                        <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">
+                            {% if request.user.get_full_name %}{{ request.user.get_full_name }}{% else %}{{ request.user.username }}{% endif %}
+                        </a>
+                        <ul class="dropdown-menu shadow-sm">
+                            <li><a class="dropdown-item" href="{% url 'perfil' %}">Meu perfil</a></li>
+                            <li><a class="dropdown-item" href="{% url 'listar-minhas-noticias' %}">Minhas notícias</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown mx-2">
                         <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">Cadastros</a>
                         <ul class="dropdown-menu shadow-sm">
                             <li><a class="dropdown-item" href="{% url 'listar-categoria' %}">Categorias</a></li>
@@ -72,6 +82,15 @@
                         <i class="bi bi-plus-lg me-1"></i> Adicionar notícia
                     </a>
                     {% endif %}
+
+                    <!-- Barra de pesquisa de notícias -->
+                    <form method="get" action="{% url 'index' %}" class="mt-3 d-flex" role="search">
+                        <input type="search" name="q" class="form-control me-2" placeholder="Buscar notícias por título ou conteúdo" value="{{ request.GET.q|default:'' }}">
+                        <button class="btn btn-light" type="submit">Buscar</button>
+                        {% if request.GET.q %}
+                        <a class="btn btn-outline-light ms-2" href="{% url 'index' %}">Limpar</a>
+                        {% endif %}
+                    </form>
                 </div>
 
                 <div class="col-md-5 text-center">
@@ -87,6 +106,9 @@
     <main class="container my-4">
         {% block conteudo %}
 
+        {% if search_results %}
+            <div class="mb-3"><h5>Resultados para "{{ search_query }}"</h5></div>
+        {% endif %}
         <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
         {% for noticia in ultimas_noticias %}
             <div class="col">
